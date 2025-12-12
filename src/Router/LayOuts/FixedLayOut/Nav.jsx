@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink} from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { MdLightMode } from "react-icons/md";
+import { MdNightlightRound } from "react-icons/md";
+import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
+import LargewhiteLogo from "../../../assets/LaggeWhiteLogo.png"
+
 const Navbar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-    const [theme, setTheme] = useState("light");
 
-  // Toggle function
-  const toggleTheme = () => {
-    setTheme(prev => (prev === "light" ? "dark" : "light"));
-  };
+    // Toggle function
+    const [theme, setTheme] = useState("light");
+    const toggleTheme = () => {
+        setTheme(prev => (prev === "light" ? "dark" : "light"));
+    };
     useEffect(() => {
-       document.documentElement.setAttribute(
-         "class",
-         theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
-       );
-     }, [theme]);
+        document.documentElement.setAttribute(
+            "class",
+            theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
+        );
+    }, [theme]);
 
 
     const Links = <>
@@ -23,14 +28,14 @@ const Navbar = () => {
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
         >
-            Services
+            Home
         </NavLink>
         <NavLink
-            to="/Coverage"
+            to="/All-Product"
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
         >
-            Coverage
+            All-Product
         </NavLink>
         <NavLink
             to="/Aboutus"
@@ -40,58 +45,57 @@ const Navbar = () => {
             About Us
         </NavLink>
         <NavLink
-            to="/SendParcel"
+            to="/Contact"
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
         >
-            Send Parcel
+            Contact
         </NavLink>
-        
         <NavLink
-            to="/Rider"
+            to="/dashboard/dash-home"
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
         >
-            Be A Rider
+            Dashboard
         </NavLink>
+
     </>
     const Links_FOR_LARG = <>
         <NavLink
             to="/"
-            className="hover:text-primary transition py-1.25 px-3.7"
+            className="hover:text-primary transition py-1 px-3"
         >
-            Services
+            Home
         </NavLink>
         <NavLink
-            to="/Coverage"
-            className="hover:text-primary transition py-1.25 px-3.7"
+            to="/All-Product"
+            className="hover:text-primary transition py-1 px-3"
         >
-            Coverage
+            All Product
         </NavLink>
         <NavLink
             to="/Aboutus"
-            className="hover:text-primary transition py-1.25 px-3.7"
+            className="hover:text-primary transition py-1 px-3"
         >
             About Us
         </NavLink>
         <NavLink
-            to="/SendParcel"
-            className="hover:text-primary transition py-1.25 px-3.7"
+            to="/Contact"
+            className="hover:text-primary transition py-1 px-3"
         >
-            Send Parcel
+            Contact
         </NavLink>
-       
         <NavLink
-            to="/Rider"
-            className="hover:text-primary transition py-1.25 px-3.7"
+            to="/dashboard/dash-home"
+            className="hover:text-primary transition py-1 px-3"
         >
-            Be A Rider
+            DashBoard
         </NavLink>
     </>
     return (
         <>
             {/* Navbar */}
-            <nav className="bg-white text-black shadow-md fixed top-0 left-0 z-50 w-full">
+            <nav className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} text-black shadow-md fixed top-0 left-0 z-50 w-full`}>
                 <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                     {/* Left Side: Logo & Hamburger (for mobile) */}
                     <div className="flex items-center gap-3">
@@ -106,10 +110,13 @@ const Navbar = () => {
                         {/* Logo */}
                         <Link
                             to="/"
-                            className="text-2xl font-bold text-black tracking-wide"
+                            className="text-2xl font-bold tracking-wide"
                         >
                             <div>
-                                <h1 className="font-bold text-4xl">LOGO</h1>
+                                {/* <h1 className="font-bold text-4xl">LOGO</h1> */}
+                                {
+                                    theme === 'dark' && <img src={LargewhiteLogo} className="w-40" alt="" /> || <img src={LargeDarkLogo} className="w-40" alt="" />
+                                }
                             </div>
                         </Link>
                     </div>
@@ -122,8 +129,11 @@ const Navbar = () => {
                     {/* Right Side: Login Button */}
 
                     <div className="flex gap-2 items-center">
-                        <button onClick={toggleTheme}>Mod</button>
-                        <h2 className="text-2xl font-bold">UserProgile</h2>
+                        <button onClick={toggleTheme} className={`p-2 ${theme === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{theme === 'dark' ? <MdLightMode size={30}/> : <MdNightlightRound size={30}/>} </button>
+                        <div className="flex gap-2">
+                            <button className="btn bg-transparent text-white font-bold styled-button">Login</button>
+                            <button className="btn bg-gray-950 text-white styled-button">Sign up</button>
+                        </div>
                     </div>
 
 

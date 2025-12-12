@@ -1,20 +1,21 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './FixedLayOut/Nav';
+import Footer from './FixedLayOut/Footer';
 
 const Rootlayout = () => {
     return (
         <div>
             <header>
-        <Navbar/>
+                <Navbar />
             </header>
 
-            <main>
-                <Outlet/>
+            <main className='mt-20 mb-3 container mx-auto px-3'>
+                <Outlet />
             </main>
 
             <footer>
-
+                <Footer />
             </footer>
         </div>
     );
