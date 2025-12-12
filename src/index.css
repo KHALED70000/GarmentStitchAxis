@@ -131,3 +131,7 @@
 
 
 
+.DashBoardOptions .active{
+  color: white;
+  background: gray;
+}
