@@ -5,11 +5,16 @@ import { FaEdit, FaPlus } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { BiSolidImageAdd } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../../HooKs/useAuth';
 
 
 const DashboardHome = () => {
+    const {user} = useAuth();
     const [openForm, setOpenForm] = useState(false)
     const [open, setOpen] = useState(false);
+
+    console.log(user)
+
     const handleViewBanner = () => {
         setOpen(true)
     }
