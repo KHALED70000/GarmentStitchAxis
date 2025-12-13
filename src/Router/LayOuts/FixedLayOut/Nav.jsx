@@ -131,8 +131,8 @@ const Navbar = () => {
                     <div className="flex gap-2 items-center">
                         <button onClick={toggleTheme} className={`p-2 ${theme === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{theme === 'dark' ? <MdLightMode size={30}/> : <MdNightlightRound size={30}/>} </button>
                         <div className="flex gap-2">
-                            <button className="btn bg-transparent text-white font-bold styled-button">Login</button>
-                            <button className="btn bg-gray-950 text-white styled-button">Sign up</button>
+                            <NavLink to="/Login" className="btn bg-transparent text-white font-bold styled-button">Login</NavLink>
+                            <NavLink to="/SignUp" className="btn bg-gray-950 text-white styled-button">Sign Up</NavLink>
                         </div>
                     </div>
 

@@ -8,6 +8,9 @@ import AboutUs from "../Pages/AboutUs/AboutUs";
 import Contact from "../Pages/Contact/Contact";
 import DashBoardLayout from "./LayOuts/DashBoard/DashBoardLayout";
 import DashboardHome from "./LayOuts/DashBoard/DashboardHome";
+import SignUp from "./LayOuts/Authlayouts/SignUp";
+import LogIn from "./LayOuts/Authlayouts/Login";
+import Authlayouts from "./LayOuts/Authlayouts/Authlayouts";
 
 export const router = createBrowserRouter([
     {
@@ -35,6 +38,20 @@ export const router = createBrowserRouter([
             {
                 path: "*",
                 element: <Error404 />
+            }
+        ]
+    },
+    {
+        path: '/',
+        Component: Authlayouts,
+        children: [
+            {
+                path: 'login',
+                Component: LogIn,
+            },
+            {
+                path: 'SignUp',
+                Component: SignUp,
             }
         ]
     },
