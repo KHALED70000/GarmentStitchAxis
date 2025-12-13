@@ -2,21 +2,44 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import useAuth from '../../../HooKs/useAuth';
 
 const SignUp = () => {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePassword = () => setShowPassword(!showPassword);
+    const navigate = useNavigate()
+
+    const { registerUser, continueWithGoogle, updateUserProfile, setUser } = useAuth();
+
     const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
     const password = watch("password");
 
     const handleSignUp = (data) => {
-
-        console.log(data);
-        reset();
+        registerUser(data.email, data.password)
+            .then(res => {
+                console.log(res.user);
+                updateUserProfile({ displayName: data.name, photoURL: data.photoURL })
+                    .then(() => { })
+                    .catch(() => { });
+                setUser(res.user)
+                reset();
+                navigate('/');
+            })
+            .catch(err => console.log(err))
+    }
+    const handleGoogleContinue = () => {
+        continueWithGoogle()
+            .then(res => {
+                console.log(res.user);
+                setUser(res.user);
+                navigate('/');
+            })
+            .catch(err => console.log(err))
     }
 
-    const [showPassword, setShowPassword] = useState(false);
 
-    const togglePassword = () => setShowPassword(!showPassword);
     return (
         <div className='mb-10'>
             <div className='text-center py-6'>
@@ -78,7 +101,7 @@ const SignUp = () => {
                                     defaultValue=""
                                 >
                                     <option value="" disabled>
-                                    Select Role
+                                        Select Role
                                     </option>
                                     <option className='text-gray-400' value="buyer">Buyer</option>
                                     <option className='text-gray-400' value="manager">Manager</option>
@@ -164,7 +187,7 @@ const SignUp = () => {
                     <span className='text-xl font-semibold'>Or</span>
                     <span className='border rotate-90'></span>
                 </div>
-                <button className='cursor-pointer py-1 border-gray-400 font-semibold text-[20px] rounded-[.5em] w-full border-2 bg-transparent flex justify-center items-center gap-2'>
+                <button onClick={handleGoogleContinue} className='cursor-pointer py-1 border-gray-400 font-semibold text-[20px] rounded-[.5em] w-full border-2 bg-transparent flex justify-center items-center gap-2'>
                     <FcGoogle size={30} />Continue with Google
                 </button>
                 <p className='mt-4'>
