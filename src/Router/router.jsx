@@ -11,6 +11,7 @@ import DashboardHome from "./LayOuts/DashBoard/DashboardHome";
 import SignUp from "./LayOuts/Authlayouts/SignUp";
 import LogIn from "./LayOuts/Authlayouts/Login";
 import Authlayouts from "./LayOuts/Authlayouts/Authlayouts";
+import PrivateRoutes from "./PRIVETROUT/PrivateRoutes";
 
 export const router = createBrowserRouter([
     {
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/Dashboard',
-        element: <DashBoardLayout />,
+        element: <PrivateRoutes><DashBoardLayout /></PrivateRoutes>,
         children: [
             {
                 index: true,

@@ -7,6 +7,7 @@ import useAuth from '../../../HooKs/useAuth';
 import { toast, ToastContainer } from 'react-toastify';
 
 const LogIn = () => {
+    const [fireError, setFireError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => setShowPassword(!showPassword);
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const LogIn = () => {
                 reset();
             })
             .catch((err)=>{
+                setFireError("Wrong Email or Password")
                 toast.error("Wrong Email or Password");
                 console.log(err)
             })
@@ -85,6 +87,10 @@ const LogIn = () => {
                         {errors.password && (
                             <p className="text-red-500 font-bold mt-1">{errors.password.message}</p>
                         )}
+                        {fireError && (
+                            <p className="text-red-500 font-bold mt-1">{fireError}</p>
+                        )}
+
                         <p className='mt-2 italic hover:underline hover:text-info'>
                             <NavLink to='/'>Forgote Password?</NavLink>
                         </p>

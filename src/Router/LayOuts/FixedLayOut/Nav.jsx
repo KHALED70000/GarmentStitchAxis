@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdLightMode } from "react-icons/md";
 import { MdNightlightRound } from "react-icons/md";
 import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
 import LargewhiteLogo from "../../../assets/LaggeWhiteLogo.png"
+import useAuth from "../../../HooKs/useAuth";
 
 const Navbar = () => {
+    const navigate =useNavigate();
+    const {user, logOut} = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
+    console.log(user?.photoURL)
     // Toggle function
     const [theme, setTheme] = useState("light");
     const toggleTheme = () => {
@@ -21,6 +24,13 @@ const Navbar = () => {
         );
     }, [theme]);
 
+    const handleLogOut = () =>{
+        logOut()
+        .then(() =>{
+            navigate('/LogIn')
+        })
+        .catch()
+    }
 
     const Links = <>
         <NavLink
@@ -130,13 +140,18 @@ const Navbar = () => {
 
                     <div className="flex gap-2 items-center">
                         <button onClick={toggleTheme} className={`p-2 ${theme === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{theme === 'dark' ? <MdLightMode size={30}/> : <MdNightlightRound size={30}/>} </button>
-                        <div className="flex gap-2">
+                       {
+                        user ? ( <div className="flex gap-2">
+                            <div className="w-12 h-12 flax justify-center items-center">
+                                <img className="rounded-full h-full w-full" src={user?.photoURL} alt={user?.displayName} />
+                            </div>
+                            <button onClick={handleLogOut} className="px-4 py-1 bg-transparent border-2 border-gray-400 text-[16px] rounded-xl">Log Out</button>
+                        </div>) : ( <div className="flex gap-2">
                             <NavLink to="/Login" className="btn bg-transparent text-white font-bold styled-button">Login</NavLink>
                             <NavLink to="/SignUp" className="btn bg-gray-950 text-white styled-button">Sign Up</NavLink>
-                        </div>
+                        </div>)
+                       }
                     </div>
-
-
 
                 </div>
             </nav>

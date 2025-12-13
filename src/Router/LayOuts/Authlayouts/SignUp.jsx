@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import useAuth from '../../../HooKs/useAuth';
 
 const SignUp = () => {
-
+    const [fireError, setFireError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => setShowPassword(!showPassword);
     const navigate = useNavigate()
@@ -20,14 +20,17 @@ const SignUp = () => {
         registerUser(data.email, data.password)
             .then(res => {
                 console.log(res.user);
-                updateUserProfile({ displayName: data.name, photoURL: data.photoURL })
+                updateUserProfile({ displayName: data.FirstName + data.LastName, photoURL: data.photoURL })
                     .then(() => { })
                     .catch(() => { });
                 setUser(res.user)
                 reset();
                 navigate('/');
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                setFireError('This account is already Exist! Use another Email....')
+            })
     }
     const handleGoogleContinue = () => {
         continueWithGoogle()
@@ -124,6 +127,9 @@ const SignUp = () => {
                         {errors.email && (
                             <p className="text-red-500 font-bold mt-1">{errors.email.message}</p>
                         )}
+                        {
+                            fireError && <p className="text-warning font-bold mt-1">{fireError}</p>
+                        }
                     </label>
                     <label className='relative'>
                         <span className='font-semibold italic'>Set Password Here:</span><br />

@@ -1,6 +1,7 @@
 import React from 'react';
-import useAuth from '../Hooks/useAuth';
+// import useAuth from '../Hooks/useAuth';
 import { Navigate, useLocation } from 'react-router-dom';
+import useAuth from '../../HooKs/useAuth';
 
 const PrivateRoutes = ({ children }) => {
     const { user, loading } = useAuth();
@@ -9,7 +10,7 @@ const PrivateRoutes = ({ children }) => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <span className="loading w-[70px] loading-spinner text-primary"></span>
+                <span className="loading w-18 loading-spinner text-primary"></span>
             </div>
         );
     }
