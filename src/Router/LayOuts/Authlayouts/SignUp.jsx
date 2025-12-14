@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../HooKs/useAuth';
+import Swal from 'sweetalert2';
 
 const SignUp = () => {
     const [fireError, setFireError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => setShowPassword(!showPassword);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const location = useLocation()
 
     const { registerUser, continueWithGoogle, updateUserProfile, setUser } = useAuth();
 
@@ -25,7 +27,18 @@ const SignUp = () => {
                     .catch(() => { });
                 setUser(res.user)
                 reset();
-                navigate('/');
+                navigate(location.state || '/');
+                Swal.fire({
+                    title: "Welcome To NestCloth...!",
+                    text: "You Registered in Successfully...!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
             })
             .catch(err => {
                 console.log(err)
@@ -37,7 +50,18 @@ const SignUp = () => {
             .then(res => {
                 console.log(res.user);
                 setUser(res.user);
-                navigate('/');
+                navigate(location.state || '/');
+                Swal.fire({
+                    title: "Welcome To NestCloth...!",
+                    text: "You Registered in Successfully...!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
             })
             .catch(err => console.log(err))
     }
@@ -197,7 +221,7 @@ const SignUp = () => {
                     <FcGoogle size={30} />Continue with Google
                 </button>
                 <p className='mt-4'>
-                    Already have an account? Please <NavLink to='/LogIn'><span className='text-info font-bold'>Login</span></NavLink>
+                    Already have an account? Please <NavLink state={location?.state} to='/LogIn'><span className='text-info font-bold'>Login</span></NavLink>
                 </p>
             </div>
         </div>

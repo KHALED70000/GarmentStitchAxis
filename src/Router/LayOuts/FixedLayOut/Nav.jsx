@@ -11,7 +11,6 @@ const Navbar = () => {
     const {user, logOut} = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-    console.log(user?.photoURL)
     // Toggle function
     const [theme, setTheme] = useState("light");
     const toggleTheme = () => {
@@ -47,7 +46,16 @@ const Navbar = () => {
         >
             All-Product
         </NavLink>
-        <NavLink
+       
+        {
+            user ? (<NavLink
+            to="/dashboard/dash-home"
+            className="hover:text-primary transition  px-6"
+            onClick={toggleSidebar}
+        >
+            Dashboard
+        </NavLink>) : <>
+         <NavLink
             to="/Aboutus"
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
@@ -61,15 +69,11 @@ const Navbar = () => {
         >
             Contact
         </NavLink>
-        <NavLink
-            to="/dashboard/dash-home"
-            className="hover:text-primary transition  px-6"
-            onClick={toggleSidebar}
-        >
-            Dashboard
-        </NavLink>
+        </>
+        }
 
     </>
+
     const Links_FOR_LARG = <>
         <NavLink
             to="/"
@@ -83,6 +87,14 @@ const Navbar = () => {
         >
             All Product
         </NavLink>
+        
+       {
+        user ? ( <NavLink
+            to="/dashboard/dash-home"
+            className="hover:text-primary transition py-1 px-3"
+        >
+            DashBoard
+        </NavLink>) : <>
         <NavLink
             to="/Aboutus"
             className="hover:text-primary transition py-1 px-3"
@@ -95,12 +107,8 @@ const Navbar = () => {
         >
             Contact
         </NavLink>
-        <NavLink
-            to="/dashboard/dash-home"
-            className="hover:text-primary transition py-1 px-3"
-        >
-            DashBoard
-        </NavLink>
+        </>
+       }
     </>
     return (
         <>

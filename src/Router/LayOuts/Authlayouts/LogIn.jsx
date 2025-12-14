@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from 'react-icons/fc';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../HooKs/useAuth';
 import { toast, ToastContainer } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 const LogIn = () => {
     const [fireError, setFireError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => setShowPassword(!showPassword);
     const navigate = useNavigate();
-
+    const location = useLocation();
     const { logInUser, continueWithGoogle, setUser } = useAuth();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -22,15 +23,26 @@ const LogIn = () => {
                 console.log(res.user);
                 setUser(res.user)
                 reset();
-                navigate('/')
+                navigate(location.state || '/')
                 reset();
+                Swal.fire({
+                    title: "Welcome back...!",
+                    text: "You logged in successfully...!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
             })
-            .catch((err)=>{
+            .catch((err) => {
                 setFireError("Wrong Email or Password")
                 toast.error("Wrong Email or Password");
                 console.log(err)
             })
-        
+
     }
 
     const handleGoogleLogin = () => {
@@ -38,7 +50,18 @@ const LogIn = () => {
             .then(res => {
                 console.log(res.user);
                 setUser(res.user);
-                navigate('/');
+                navigate(location.state || '/');
+                Swal.fire({
+                    title: "Welcome back...!",
+                    text: "You logged in successfully...!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
             })
             .catch(err => {
                 toast.error("Authentication Error");
@@ -108,7 +131,7 @@ const LogIn = () => {
                 </button>
 
                 <p className='mt-4'>
-                    Don't have an account? Please <NavLink to='/SignUp'><span className='text-info font-bold'>Sign Up</span></NavLink>
+                    Don't have an account? Please <NavLink state={location?.state} to='/SignUp'><span className='text-info font-bold'>Sign Up</span></NavLink>
                 </p>
             </div>
             {/* toast */}

@@ -1,39 +1,84 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { FaEdit, FaPlus } from 'react-icons/fa';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { BiSolidImageAdd } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
-import useAuth from '../../../HooKs/useAuth';
-
+import useAxiosSecure from '../../../HooKs/useAxiosSecure';
+import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
 
 const DashboardHome = () => {
-    const {user} = useAuth();
-    const [openForm, setOpenForm] = useState(false)
+    const [openForm, setOpenForm] = useState(false);
     const [open, setOpen] = useState(false);
+    useEffect(() => {
+        document.title = "Dashboard | Home";
+    }, []);
 
-    console.log(user)
+
 
     const handleViewBanner = () => {
         setOpen(true)
     }
 
-    const handleCreateBanner = () => {
+    const handleOpenBannerForm = () => {
         setOpenForm(true)
     }
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
+
+    const axiosSecure = useAxiosSecure();
+    const { data: Banners = [], isLoading, isError, refetch } = useQuery({
+        queryKey: ['banners'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/banners');
+            return res.data;
+        }
+    })
+    if (isLoading) return <p>Loading...</p>;
+    if (isError) return <p>Error loading banners</p>;
+
     const handleCreate = (data) => {
         console.log(data);
-        reset();
-        setOpenForm(false)
+        axiosSecure.post('/banners', data)
+            .then((res) => {
+                Swal.fire({
+                    title: "Well Done...!",
+                    text: `${res.data.message}`,
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
+                refetch();
+                reset();
+                setOpenForm(false)
+            })
+            .catch(err => {
+                Swal.fire({
+                    title: "An error occured...!",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: {
+                        confirmButton: "bg-[#CAEB66] cursor-pointer text-black px-4 py-2 rounded font-semibold"
+                    },
+                    buttonsStyling: false
+                });
+                console.log(err)
+            })
     }
+
+
 
     return (
         <div>
             <div className='mb-6'>
-                <h1 className='font-bold text-2xl'>Create A New Banner <button onClick={handleCreateBanner} className="btn btn-sm bg-gray-400"><BiSolidImageAdd size={20} /></button></h1>
+                <h1 className='font-bold text-2xl'>Create A New Banner <button onClick={handleOpenBannerForm} className="btn btn-sm bg-gray-400"><BiSolidImageAdd size={20} /></button></h1>
             </div>
 
             <div className="overflow-x-auto">
@@ -50,19 +95,21 @@ const DashboardHome = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>
-                                <NavLink to='/' className={` btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>Click</NavLink>
-                            </td>
-                            <td>01/02/2001 </td>
-                            <td>
-                                <button onClick={handleViewBanner} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
-                            </td>
-                        </tr>
+                        {
+                            Banners.map((banner, index) => <tr key={banner._id}>
+                                <th>{index + 1}</th>
+                                <td><img className='h-14 w-20 rounded-xl' src={banner.BannerUrl} alt="Not Found" /></td>
+                                <td>Quality Control Specialist</td>
+                                <td>
+                                    <NavLink to={banner.ActionLink} className={` btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>{banner.BtnName}</NavLink>
+                                </td>
+                                <td>01/02/2001 </td>
+                                <td>
+                                    <button onClick={handleViewBanner} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
+                                </td>
+                            </tr>)
+                        }
+
 
                     </tbody>
                 </table>
@@ -128,7 +175,7 @@ const DashboardHome = () => {
 
 
                                 <div className='flex flex-col items-center gap-3'>
-                                    <BiSolidImageAdd size={50}/>
+                                    <BiSolidImageAdd size={50} />
                                     <h2 className="text-xl text-center text-white font-semibold mb-6">CREATE BANNER</h2>
                                 </div>
 
@@ -147,33 +194,33 @@ const DashboardHome = () => {
                                     </label>
                                     <label>
                                         Slogan <br />
-                                        <input 
-                                        {...register("Slogan", {
+                                        <input
+                                            {...register("Slogan", {
                                                 required: "Slogan is Required...!"
                                             })}
-                                        className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Banner Slogan . . .' />
+                                            className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Banner Slogan . . .' />
                                         {errors.Slogan && (
                                             <p className="text-red-500 font-bold mt-1">{errors.Slogan.message}</p>
                                         )}
                                     </label>
                                     <label>
                                         CTA Button Name <br />
-                                        <input 
-                                        {...register("BtnName", {
+                                        <input
+                                            {...register("BtnName", {
                                                 required: "Button name is Required...!"
                                             })}
-                                        className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Button Text . . .' />
+                                            className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Button Text . . .' />
                                         {errors.BtnName && (
                                             <p className="text-red-500 font-bold mt-1">{errors.BtnName.message}</p>
                                         )}
                                     </label>
                                     <label>
                                         CTA Button Link <br />
-                                        <input 
-                                        {...register("ActionLink", {
+                                        <input
+                                            {...register("ActionLink", {
                                                 required: "CTA link is Required...!"
                                             })}
-                                        className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Action Link . . .' />
+                                            className='border-2 rounded-md py-1 px-2 w-full mt-1 focus:ring-2 focus:ring-primary focus:outline-none border-gray-400 focus:border-0 outline-0' type="text" placeholder='Action Link . . .' />
                                         {errors.ActionLink && (
                                             <p className="text-red-500 font-bold mt-1">{errors.ActionLink.message}</p>
                                         )}
