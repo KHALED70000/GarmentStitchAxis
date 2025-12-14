@@ -39,7 +39,7 @@ const AllProduct = () => {
                             <p className=' font-bold '>Category: <span className='capitalize'>{Product.Category}</span></p>
                             <span className='font-semibold'>  {Product.AOQ} Pice</span>
                         </div>
-                        <NavLink to={`ViewDetails/${Product._id}`} className='btn btn-info w-full mb-2 mt-4'>View Details</NavLink>
+                        <NavLink to={`/ViewDetails/${Product._id}`} className='btn btn-info w-full mb-2 mt-4'>View Details</NavLink>
                     </div>)
                 }
             </div>
