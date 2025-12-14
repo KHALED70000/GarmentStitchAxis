@@ -7,11 +7,14 @@ import AllProduct from "../Pages/AllProduct/AllProduct";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Contact from "../Pages/Contact/Contact";
 import DashBoardLayout from "./LayOuts/DashBoard/DashBoardLayout";
-import DashboardHome from "./LayOuts/DashBoard/DashboardHome";
+import AdminDashboardHome from "./LayOuts/DashBoard/AdminDashboardHome";
 import SignUp from "./LayOuts/Authlayouts/SignUp";
 import LogIn from "./LayOuts/Authlayouts/Login";
 import Authlayouts from "./LayOuts/Authlayouts/Authlayouts";
 import PrivateRoutes from "./PRIVETROUT/PrivateRoutes";
+import DashboardHome from "./LayOuts/DashBoard/DashboardHome";
+import User from "./LayOuts/DashBoard/User";
+import AddProduct from "./LayOuts/DashBoard/AddProduct";
 
 export const router = createBrowserRouter([
     {
@@ -62,8 +65,16 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                path: 'dash-home',
+                path: 'DashBoard-Home',
                 element: <DashboardHome />,
+            },
+            {
+                path: 'Users',
+                element: <User/>,
+            },
+            {
+                path: 'Add-Product',
+                element: <AddProduct/>
             },
         ],
     }

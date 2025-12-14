@@ -20,7 +20,15 @@
   border-bottom: 2px solid #CAEB66;
 }
 
-
+/* custom title */
+.section-title{
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-align: center;
+  padding: 4vh 0 2vh 0 ;
+}
+/* custom title rnd */
 
 /* .AC_parent .active:hover {
   color: white;

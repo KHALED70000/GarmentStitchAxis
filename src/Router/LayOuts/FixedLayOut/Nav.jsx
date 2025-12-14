@@ -49,7 +49,7 @@ const Navbar = () => {
        
         {
             user ? (<NavLink
-            to="/dashboard/dash-home"
+            to="/v/DashBoard-Home"
             className="hover:text-primary transition  px-6"
             onClick={toggleSidebar}
         >
@@ -90,7 +90,7 @@ const Navbar = () => {
         
        {
         user ? ( <NavLink
-            to="/dashboard/dash-home"
+            to="/Dashboard/DashBoard-Home"
             className="hover:text-primary transition py-1 px-3"
         >
             DashBoard

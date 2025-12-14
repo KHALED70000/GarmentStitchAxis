@@ -6,6 +6,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../HooKs/useAuth';
 import { toast, ToastContainer } from 'react-toastify';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 
 const LogIn = () => {
     const [fireError, setFireError] = useState('')
@@ -14,6 +15,7 @@ const LogIn = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { logInUser, continueWithGoogle, setUser } = useAuth();
+    const axiosSecure =useAxiosSecure();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
@@ -49,6 +51,16 @@ const LogIn = () => {
         continueWithGoogle()
             .then(res => {
                 console.log(res.user);
+
+                const newUser = {
+                    displayName: res.user.displayName,
+                    email: res.user.email,
+                    photoURL: res.user.photoURL,
+                    role: 'buyer',
+                }
+                axiosSecure.post('/users', newUser)
+                .then(()=>{}).catch((err)=> console.log(err))
+
                 setUser(res.user);
                 navigate(location.state || '/');
                 Swal.fire({

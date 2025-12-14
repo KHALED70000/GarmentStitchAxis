@@ -1,5 +1,6 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import LargewhiteLogo from "../../../assets/LaggeWhiteLogo.png"
+import { BsTwitterX } from "react-icons/bs";
 const Footer = () => {
     return (
         <footer className="bg-gray-900 text-gray-300 py-10">
@@ -18,7 +19,7 @@ const Footer = () => {
                             <FaFacebookF size={20} />
                         </a>
                         <a href="#" className="hover:text-white transition-colors">
-                            <FaTwitter size={20} />
+                            <BsTwitterX size={20} />
                         </a>
                         <a href="#" className="hover:text-white transition-colors">
                             <FaInstagram size={20} />
@@ -34,7 +35,7 @@ const Footer = () => {
                     <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
                     <ul className="space-y-2">
                         <li>
-                            <a href="/dashboard" className="hover:text-white transition-colors">
+                            <a href="/DashBoard/DashBoard-Home" className="hover:text-white transition-colors">
                                 Dashboard
                             </a>
                         </li>
@@ -49,7 +50,7 @@ const Footer = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="/contact" className="hover:text-white transition-colors">
+                            <a href="/Contact" className="hover:text-white transition-colors">
                                 Contact Us
                             </a>
                         </li>

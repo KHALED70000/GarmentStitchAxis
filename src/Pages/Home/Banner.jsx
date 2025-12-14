@@ -39,7 +39,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg13} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Where Style Meets Comfort.
@@ -52,7 +52,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg2} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Your Dream, Our Display.
@@ -65,7 +65,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg3} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Step In, Stand Out.
@@ -78,7 +78,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg4} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Quality That Speaks for Itself.
@@ -91,7 +91,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg5} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Experience Elegance Every Step.
@@ -104,7 +104,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg6} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Showroom of Smiles & Style.
@@ -117,7 +117,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg7} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 See It. Feel It. Own It.
@@ -130,7 +130,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg8} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Turning Spaces into Statements..
@@ -143,7 +143,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg9} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Where Every Piece Tells a Story.
@@ -156,7 +156,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg10} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Your Style, Our Showcase.
@@ -169,7 +169,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg11} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Experience Elegance Every Step.
@@ -182,7 +182,7 @@ const Banner = () => {
         <SwiperSlide>
           <div className="w-full h-full flex items-center justify-center text-white text-3xl relative">
             <img className="h-full w-full" src={ExportImg12} alt="" />
-            <div className="flex absolute flex-col justify-center items-center gap-4 p-10">
+            <div className="flex absolute flex-col justify-center items-center gap-4 p-10 m-4">
 
               <h2 className="text-4xl font-bold text-center">
                 Where Style Meets Comfort.

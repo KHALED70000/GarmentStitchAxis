@@ -5,11 +5,13 @@ import { FcGoogle } from 'react-icons/fc';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../../HooKs/useAuth';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 
 const SignUp = () => {
     const [fireError, setFireError] = useState('')
     const [showPassword, setShowPassword] = useState(false);
     const togglePassword = () => setShowPassword(!showPassword);
+    const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
     const location = useLocation()
 
@@ -21,8 +23,16 @@ const SignUp = () => {
     const handleSignUp = (data) => {
         registerUser(data.email, data.password)
             .then(res => {
-                console.log(res.user);
-                updateUserProfile({ displayName: data.FirstName + data.LastName, photoURL: data.photoURL })
+                const newUser = {
+                    displayName: data.FirstName + " " + data.LastName,
+                    email: data.email,
+                    photoURL: data.photoURL,
+                    role: data.role,
+                }
+                axiosSecure.post('/users', newUser)
+                .then(()=>{}).catch((err)=> console.log(err))
+
+                updateUserProfile({ displayName: data.FirstName + " " + data.LastName, photoURL: data.photoURL })
                     .then(() => { })
                     .catch(() => { });
                 setUser(res.user)
@@ -49,6 +59,15 @@ const SignUp = () => {
         continueWithGoogle()
             .then(res => {
                 console.log(res.user);
+                const newUser = {
+                    displayName: res.user.displayName,
+                    email: res.user.email,
+                    photoURL: res.user.photoURL,
+                    role: 'buyer',
+                }
+                axiosSecure.post('/users', newUser)
+                .then(()=>{}).catch((err)=> console.log(err))
+
                 setUser(res.user);
                 navigate(location.state || '/');
                 Swal.fire({

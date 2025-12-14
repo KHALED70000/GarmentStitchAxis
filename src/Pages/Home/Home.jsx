@@ -7,6 +7,7 @@ const Home = () => {
   }, []);
     return (
         <div>
+            <h2 className='section-title'>Streamline Your Production Workflow</h2>
             <Banner />
         </div>
     );
