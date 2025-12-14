@@ -78,11 +78,8 @@ const ViewDetails = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <button className="px-6 py-2 border rounded-md">
-              Add to Cart
-            </button>
-            <button className="px-6 py-2 border rounded-md">
-              Order Now
+            <button className="btn-donate">
+              Book Now
             </button>
           </div>
 
