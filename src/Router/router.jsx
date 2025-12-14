@@ -15,6 +15,7 @@ import PrivateRoutes from "./PRIVETROUT/PrivateRoutes";
 import DashboardHome from "./LayOuts/DashBoard/DashboardHome";
 import User from "./LayOuts/DashBoard/User";
 import AddProduct from "./LayOuts/DashBoard/AddProduct";
+import ViewDetails from "../Pages/ViewDetails/ViewDetails";
 
 export const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
             {
                 path: '/Contact',
                 element: <Contact />,
+            },
+            {
+                path: '/ViewDetails/:id',
+                element: <ViewDetails/>,
             },
             {
                 path: "*",
