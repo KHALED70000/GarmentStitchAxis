@@ -40,12 +40,12 @@ const Footer = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="/dashboard/my-orders" className="hover:text-white transition-colors">
+                            <a href="/" className="hover:text-white transition-colors">
                                 My Orders
                             </a>
                         </li>
                         <li>
-                            <a href="/dashboard/profile" className="hover:text-white transition-colors">
+                            <a href="/" className="hover:text-white transition-colors">
                                 Profile
                             </a>
                         </li>
