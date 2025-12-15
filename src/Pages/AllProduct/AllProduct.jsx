@@ -19,6 +19,7 @@ const AllProduct = () => {
         }
     })
 
+
     return (
         <div>
             All-Product{Products.length}
@@ -29,7 +30,7 @@ const AllProduct = () => {
                 {
                     Products.map(Product => <div key={Product._id} className='p-4 bg-gray-900 rounded-xl'>
                         <div className='h-76'>
-                            <img className='h-full w-full' src={Product.productImgURL} alt={Product.ProductName} />
+                            <img className='h-full w-full' src={Product.photos} alt={Product.ProductName} />
                         </div>
                         <div className='flex justify-between items-center text-white mt-4'>
                             <h1 className='text-[20px] font-bold capitalize '>{Product.ProductName}</h1>

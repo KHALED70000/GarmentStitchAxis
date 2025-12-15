@@ -10,6 +10,7 @@ import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
 import useAuth from '../../../HooKs/useAuth';
 import useRole from '../../../HooKs/useRole';
 import { LuPlus } from "react-icons/lu";
+import { FaProductHunt } from 'react-icons/fa';
 
 
 
@@ -94,25 +95,35 @@ const DashBoardLayout = () => {
                         </li>
                         {
                             role === 'admin'
-                            && <li>
+                            && <>
+                            <li>
                                 <NavLink to='/DashBoard/Users' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
                                     {/* Home icon */}
                                     <FaUserGear size={20} />
                                     <span className="is-drawer-close:hidden">Users</span>
                                 </NavLink>
                             </li>
+                            <li>
+                                <NavLink to='/DashBoard/AllProduct' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                    {/* Home icon */}
+                                    <FaProductHunt size={20} />
+                                    <span className="is-drawer-close:hidden">Users</span>
+                                </NavLink>
+                            </li>
+                            </>
                         }
 
                         {
                             role === 'manager'
                             && <li>
-                                <NavLink to='/DashBoard/Add-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                <NavLink to='/DashBoard/Add-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
                                     {/* Home icon */}
                                     <LuPlus size={20} />
-                                    <span className="is-drawer-close:hidden">Users</span>
+                                    <span className="is-drawer-close:hidden">Add Product</span>
                                 </NavLink>
                             </li>
                         }
+                        
 
 
 

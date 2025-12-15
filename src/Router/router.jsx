@@ -42,7 +42,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/ViewDetails/:id',
-                element: <ViewDetails/>,
+                element:<PrivateRoutes> <ViewDetails/> </PrivateRoutes>,
             },
             {
                 path: "*",
