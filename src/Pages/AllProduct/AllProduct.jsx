@@ -26,7 +26,7 @@ const AllProduct = () => {
             <h2 className='section-title'>All Phoduct Here:</h2>
             <p className='text-xl font-bold my-4'> Total Available Product: "<span>{Products.length}</span>"</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4" >
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" >
                 {
                     Products.map(Product => <div key={Product._id} className='p-4 bg-gray-900 rounded-xl'>
                         <div className='h-76'>

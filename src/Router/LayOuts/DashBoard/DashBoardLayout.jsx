@@ -1,4 +1,4 @@
-import { FiPackage } from 'react-icons/fi';
+import { FiClock, FiPackage, FiShoppingBag } from 'react-icons/fi';
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { NavLink, Outlet, useNavigate } from 'react-router';
 import { RxDashboard } from "react-icons/rx";
@@ -96,34 +96,43 @@ const DashBoardLayout = () => {
                         {
                             role === 'admin'
                             && <>
-                            <li>
-                                <NavLink to='/DashBoard/Users' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
-                                    {/* Home icon */}
-                                    <FaUserGear size={20} />
-                                    <span className="is-drawer-close:hidden">Users</span>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to='/DashBoard/AllProduct' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
-                                    {/* Home icon */}
-                                    <FaProductHunt size={20} />
-                                    <span className="is-drawer-close:hidden">Users</span>
-                                </NavLink>
-                            </li>
+                                <li>
+                                    <NavLink to='/DashBoard/Users' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                        {/* Home icon */}
+                                        <FaUserGear size={20} />
+                                        <span className="is-drawer-close:hidden">Users</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/DashBoard/AllProduct' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                        {/* Home icon */}
+                                        <FaProductHunt size={20} />
+                                        <span className="is-drawer-close:hidden">Users</span>
+                                    </NavLink>
+                                </li>
                             </>
                         }
 
                         {
                             role === 'manager'
-                            && <li>
-                                <NavLink to='/DashBoard/Add-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
-                                    {/* Home icon */}
-                                    <LuPlus size={20} />
-                                    <span className="is-drawer-close:hidden">Add Product</span>
-                                </NavLink>
-                            </li>
+                            && <>
+                                <li>
+                                    <NavLink to='/DashBoard/Add-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
+                                        {/* Home icon */}
+                                        <LuPlus size={20} />
+                                        <span className="is-drawer-close:hidden">Add Product</span>
+                                    </NavLink>
+                                </li>
+                                 <li>
+                                    <NavLink to='/DashBoard/Pending-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Orders">
+                                        {/* Home icon */}
+                                        <FiClock size={20} />
+                                        <span className="is-drawer-close:hidden">Pending Orders</span>
+                                    </NavLink>
+                                </li>
+                            </>
                         }
-                        
+
 
 
 
