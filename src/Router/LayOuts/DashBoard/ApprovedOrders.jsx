@@ -8,10 +8,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { RxCross2 } from 'react-icons/rx';
 
 
-const PendingOrders = () => {
+const ApprovedOrders = () => {
     const [openForm, setOpenForm] = useState(false);
     const [orderView, setOrderView] = useState();
-    const [orderStatus, setOrderStatus] = useState('pending')
+    // const [orderStatus, setOrderStatus] = useState('pending')
 
     const axiosSecure = useAxiosSecure();
     const {
@@ -19,22 +19,22 @@ const PendingOrders = () => {
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['orders', orderStatus],
+        queryKey: ['orders'], //orderStatus
         queryFn: async () => {
-            const res = await axiosSecure.get(`/orders?status=${orderStatus}`);
+            const res = await axiosSecure.get(`/orders?status=approved`);
             return res.data;
         },
     });
 
 
-    const handlePendingOrderStatus = ()=>{
-        setOrderStatus('pending')
-        refetch();
-    }
-    const handleRejectgOrderStatus = ()=>{
-        setOrderStatus('rejected')
-        refetch();
-    }
+    // const handlePendingOrderStatus = ()=>{
+    //     setOrderStatus('pending')
+    //     refetch();
+    // }
+    // const handleRejectgOrderStatus = ()=>{
+    //     setOrderStatus('rejected')
+    //     refetch();
+    // }
 
     if (isLoading) {
         return (<div className="flex justify-center items-center h-screen">
@@ -88,9 +88,9 @@ const PendingOrders = () => {
     };
 
 
-    const handleApprodeOrder = (order) => {
-        habdleActionOrder(order, 'approved')
-    }
+    // const handleApprodeOrder = (order) => {
+    //     habdleActionOrder(order, 'pending')
+    // }
     const handleRejectOrder = (order) => {
         habdleActionOrder(order, 'rejected')
     }
@@ -124,11 +124,11 @@ const PendingOrders = () => {
             <div>
                 <h1 className='text-2xl font-bold text-center mt-4 mb-10'>New Order Here:</h1>
                 <div className='flex justify-between my-4'>
-                    <p className='my-3'>Toral Orders: '{orders.length}'</p>
-                    <div className='flex gap-2'>
+                    <p className='my-3'>Toral Approved Orders: '{orders.length}'</p>
+                    {/* <div className='flex gap-2'>
                         <button onClick={handlePendingOrderStatus} className={`px-5 rounded-[5px] cursor-pointer border-2 border-yellow-500 text-yellow-500 ${orderStatus === 'rejected' && 'scale-90'}`}>Pending Orders</button>
                         <button onClick={handleRejectgOrderStatus} className={`px-5 rounded-[5px] cursor-pointer border-2 border-red-500 text-red-700 ${orderStatus === 'pending' && 'scale-90'}`}>Rejected Orders</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -157,7 +157,7 @@ const PendingOrders = () => {
 
                             <td>
                                 <div className='flex gap-2'>
-                                    <button onClick={() => handleApprodeOrder(order)} className={`btn btn-sm bg-transparent text-green-500 border-2 rounded-[7px] border-green-500 `}>Approve</button>
+                                    {/* <button onClick={() => handleApprodeOrder(order)} className={`btn btn-sm bg-transparent text-green-500 border-2 rounded-[7px] border-green-500 `}>Pending</button> */}
                                     <button onClick={() => handleRejectOrder(order)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Reject</button>
                                     <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
                                 </div>
@@ -219,4 +219,4 @@ const PendingOrders = () => {
     );
 };
 
-export default PendingOrders;
+export default ApprovedOrders;

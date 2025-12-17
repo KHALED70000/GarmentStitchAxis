@@ -11,6 +11,7 @@ import useAuth from '../../../HooKs/useAuth';
 import useRole from '../../../HooKs/useRole';
 import { LuPlus } from "react-icons/lu";
 import { FaProductHunt } from 'react-icons/fa';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 
 
 
@@ -128,6 +129,13 @@ const DashBoardLayout = () => {
                                         {/* Home icon */}
                                         <FiClock size={20} />
                                         <span className="is-drawer-close:hidden">Pending Orders</span>
+                                    </NavLink>
+                                </li>
+                                 <li>
+                                    <NavLink to='/DashBoard/Approved-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Orders">
+                                        {/* Home icon */}
+                                        <AiOutlineCheckCircle size={22} />
+                                        <span className="is-drawer-close:hidden">Approved Orders</span>
                                     </NavLink>
                                 </li>
                             </>
