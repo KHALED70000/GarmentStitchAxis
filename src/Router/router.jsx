@@ -18,6 +18,8 @@ import AddProduct from "./LayOuts/DashBoard/AddProduct";
 import ViewDetails from "../Pages/ViewDetails/ViewDetails";
 import PendingOrders from "./LayOuts/DashBoard/PendingOrders";
 import ApprovedOrders from "./LayOuts/DashBoard/ApprovedOrders";
+import ManageProduct from "./LayOuts/DashBoard/ManageProduct";
+import UpdateTracking from "./LayOuts/DashBoard/UpdateTracking";
 
 export const router = createBrowserRouter([
     {
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
             {
                 path: '/ViewDetails/:id',
                 element:<PrivateRoutes> <ViewDetails/> </PrivateRoutes>,
+            },
+            {
+                path: 'Update-Tracking/:id',
+                element: <UpdateTracking/>
             },
             {
                 path: "*",
@@ -91,6 +97,10 @@ export const router = createBrowserRouter([
                 path: 'Approved-Orders',
                 element: <ApprovedOrders/>
             },
+            {
+                path: 'Manage-Product',
+                element: <ManageProduct/>
+            }
         ],
     }
 ])

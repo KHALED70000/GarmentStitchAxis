@@ -6,6 +6,8 @@ import { SiTicktick } from "react-icons/si";
 import Swal from 'sweetalert2';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RxCross2 } from 'react-icons/rx';
+import { TbMoodEmptyFilled } from "react-icons/tb";
+
 
 
 const ApprovedOrders = () => {
@@ -42,7 +44,7 @@ const ApprovedOrders = () => {
         </div>)
     }
 
-   
+
     const habdleActionOrder = (order, status) => {
         const isApprove = status === 'approved';
 
@@ -92,37 +94,37 @@ const ApprovedOrders = () => {
     //     habdleActionOrder(order, 'pending')
     // }
     const handleRejectOrder = (order) => {
-        habdleActionOrder(order, 'rejected')
+        habdleActionOrder(order, 'pending')
     }
 
 
- 
+
 
     const handelView = (order) => {
         setOpenForm(true);
         setOrderView(order)
     }
 
-    if (orders.length === 0) {
-        return <>
-            <div className="w-full h-[80vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
-                <span className="text-sm uppercase tracking-widest text-gray-400">
-                    Orders
-                </span>
-                <h3 className="mt-2 text-lg font-semibold">
-                    No orders Pending
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 max-w-sm">
-                    Orders will appear here once customers place their purchases.
-                </p>
-            </div>
-        </>
-    }
+    // if (orders.length === 0) {
+    //     return <>
+    //         <div className="w-full h-[80vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
+    //             <span className="text-sm uppercase tracking-widest text-gray-400">
+    //                 Orders
+    //             </span>
+    //             <h3 className="mt-2 text-lg font-semibold">
+    //                 No approded order here
+    //             </h3>
+    //             <p className="mt-1 text-sm text-gray-500 max-w-sm">
+    //                 Orders will appear here once customers place their purchases.
+    //             </p>
+    //         </div>
+    //     </>
+    // }
 
     return (
-        <div>
+        <div className=' scroll-auto'>
             <div>
-                <h1 className='text-2xl font-bold text-center mt-4 mb-10'>New Order Here:</h1>
+                <h1 className='text-2xl font-bold text-center mt-4 mb-10'>Approved Order Here:</h1>
                 <div className='flex justify-between my-4'>
                     <p className='my-3'>Toral Approved Orders: '{orders.length}'</p>
                     {/* <div className='flex gap-2'>
@@ -132,15 +134,16 @@ const ApprovedOrders = () => {
                 </div>
             </div>
 
-            <table className="table border border-gray-500">
+            {orders.length !== 0 && <table className="table border border-gray-500">
                 {/* head */}
                 <thead>
                     <tr className='text-gray-400'>
                         <th>#</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Payment Mode</th>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Approved Date</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -149,23 +152,34 @@ const ApprovedOrders = () => {
                     {
                         orders.map((order, index) => <tr key={order._id}>
                             <th>{index + 1}</th>
-                            <td><img className='h-14 w-20 rounded-xl' src={order.ProductPhotos[0]} alt="Not Found" /></td>
+                            <td>{order._id}</td>
+                            <td>{order.FirstName} {order.LastName}</td>
                             <td>{order.ProductName}</td>
-                            <td>{order.Order_Price} $</td>
-                            <td className={`${order.ProductPaymentMode === 'cod' ? 'text-green-400' : 'text-warning'}`}>{order.ProductPaymentMode === 'payFirst' ? 'Pay First' : 'Cash on Delivery (COD)'}</td>
+                            <td>{order.Order_Quantity} Pice</td>
+                            <td >{order.approvedAt.slice(0, 10)}</td>
                             <td className={`${order.status === 'pending' ? 'text-warning' : order.status === 'rejected' ? 'text-red-600' : 'text-green-500'} capitalize`}>{order.status}</td>
 
                             <td>
                                 <div className='flex gap-2'>
                                     {/* <button onClick={() => handleApprodeOrder(order)} className={`btn btn-sm bg-transparent text-green-500 border-2 rounded-[7px] border-green-500 `}>Pending</button> */}
-                                    <button onClick={() => handleRejectOrder(order)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Reject</button>
+                                    <button onClick={() => handleRejectOrder(order)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Disapprove</button>
                                     <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
                                 </div>
                             </td>
                         </tr>)
                     }
                 </tbody>
-            </table>
+            </table> || <div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
+
+                <p className='text-gray-400'><TbMoodEmptyFilled size={90}/></p>
+                   
+                    <h3 className="mt-2 text-lg font-semibold">
+                        No Approvede Orders
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500 max-w-sm">
+                        Orders will appear here once customers place their purchases.
+                    </p>
+                </div>}
 
             <AnimatePresence>
 
@@ -190,17 +204,21 @@ const ApprovedOrders = () => {
                                     <img className='h-full w-full rounded-xl' src={orderView.ProductPhotos} alt="" />
                                 </div>
 
-                                <div>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Product Name: </span> <span>{orderView.ProductName}</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'> Quantity: </span> <span>{orderView.Order_Quantity}</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Order Price: </span> <span>{orderView.Product_pice} $</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Order status: </span> <span>{orderView.status}</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Date: </span> <span>{orderView.createdAt.slice(0, 10)}</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Payment Mode: </span> <span>{orderView.ProductPaymentMode}</span></p>
-                                    <p className='flex justify-between text-gray-400'> <span className='font-bold'>Buyer Address: </span> <span>{orderView.Buyer_Address}</span></p>
+                                <div className='flex flex-col gap-2 mt-6'>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Product Name: </span> <span>{orderView.ProductName}</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'> Quantity: </span> <span>{orderView.Order_Quantity}</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Order Price: </span> <span>{orderView.Product_pice} $</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Order status: </span> <span>{orderView.status}</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Date: </span> <span>{orderView.approvedAt.slice(0, 10)}</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Payment Mode: </span> <span>{orderView.ProductPaymentMode}</span></p>
+                                    <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Buyer Address: </span> <span className='max-w-60 text-justify'>{orderView.Buyer_Address}</span></p>
                                 </div>
                             </div>
 
+                            <div className='flex gap-3 justify-between mt-6'>
+                                <NavLink to={`/Update-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-green-400'>Update Tracking</NavLink>
+                                <NavLink className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-gray-500 text-gray-400'>View Tracking</NavLink>
+                            </div>
 
                             <div className={`flex flex-col gap-4 mt-6`}>
                                 <button

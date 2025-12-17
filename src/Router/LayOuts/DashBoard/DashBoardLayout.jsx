@@ -3,7 +3,7 @@ import { IoReorderThreeOutline } from "react-icons/io5";
 import { NavLink, Outlet, useNavigate } from 'react-router';
 import { RxDashboard } from "react-icons/rx";
 import { useEffect, useState } from 'react';
-import { MdLightMode, MdNightlightRound } from 'react-icons/md';
+import { MdLightMode, MdNightlightRound, MdOutlineManageHistory } from 'react-icons/md';
 import { FaUserGear } from "react-icons/fa6";
 import LaggeWhiteLogo from "../../../assets/LaggeWhiteLogo.png"
 import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
@@ -11,12 +11,19 @@ import useAuth from '../../../HooKs/useAuth';
 import useRole from '../../../HooKs/useRole';
 import { LuPlus } from "react-icons/lu";
 import { FaProductHunt } from 'react-icons/fa';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
+import { AiOutlineCheckCircle, AiOutlineUnorderedList } from 'react-icons/ai';
+import Footer from '../FixedLayOut/Footer';
+import { SlHandbag } from "react-icons/sl";
 
 
 
 
 const DashBoardLayout = () => {
+
+     useEffect(() => {
+            document.title = "Dashboard";
+        }, []);
+
     const navigate = useNavigate();
     const { user, logOut } = useAuth();
     const [theme, setTheme] = useState("light");
@@ -78,7 +85,10 @@ const DashBoardLayout = () => {
                 <div className={`p-4 m-4 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} rounded-2xl shadow-sm mt-20 z-20`}>
                     <Outlet></Outlet>
                 </div>
+                
             </div>
+
+            
 
             <div className="drawer-side is-drawer-close:overflow-visible shadow-sm">
                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -120,24 +130,32 @@ const DashBoardLayout = () => {
                                 <li>
                                     <NavLink to='/DashBoard/Add-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
                                         {/* Home icon */}
-                                        <LuPlus size={20} />
+                                        <LuPlus size={22} />
+                                        <span className="is-drawer-close:hidden">Add Product</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/DashBoard/Manage-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
+                                        {/* Home icon */}
+                                        <MdOutlineManageHistory size={22} />
                                         <span className="is-drawer-close:hidden">Add Product</span>
                                     </NavLink>
                                 </li>
                                  <li>
                                     <NavLink to='/DashBoard/Pending-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Orders">
                                         {/* Home icon */}
-                                        <FiClock size={20} />
+                                        <SlHandbag size={20} />
                                         <span className="is-drawer-close:hidden">Pending Orders</span>
                                     </NavLink>
                                 </li>
                                  <li>
                                     <NavLink to='/DashBoard/Approved-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Orders">
                                         {/* Home icon */}
-                                        <AiOutlineCheckCircle size={22} />
+                                        <AiOutlineCheckCircle size={23} />
                                         <span className="is-drawer-close:hidden">Approved Orders</span>
                                     </NavLink>
                                 </li>
+                                 
                             </>
                         }
 
