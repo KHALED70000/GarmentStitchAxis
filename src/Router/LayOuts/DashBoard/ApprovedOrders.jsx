@@ -17,7 +17,7 @@ const ApprovedOrders = () => {
 
     const axiosSecure = useAxiosSecure();
     const {
-        data: orders,
+        data: orders=[],
         isLoading,
         refetch,
     } = useQuery({
@@ -212,6 +212,7 @@ const ApprovedOrders = () => {
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Date: </span> <span>{orderView.approvedAt.slice(0, 10)}</span></p>
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Payment Mode: </span> <span>{orderView.ProductPaymentMode}</span></p>
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Buyer Address: </span> <span className='max-w-60 text-justify'>{orderView.Buyer_Address}</span></p>
+                                    <p className='text-gray-400'>{orderView?.Trackings?.Cutting}</p>
                                 </div>
                             </div>
 
