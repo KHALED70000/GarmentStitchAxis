@@ -158,7 +158,7 @@ const PendingOrders = () => {
                 </tbody>
             </table>
                 || <div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
-                    <p className='text-gray-400'><TbMoodEmptyFilled size={90}/></p>
+                    <p className='text-gray-400'><TbMoodEmptyFilled size={90} /></p>
                     <h3 className="mt-2 text-lg font-semibold">
                         No Available Orders
                     </h3>

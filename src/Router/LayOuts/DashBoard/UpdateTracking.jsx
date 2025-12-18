@@ -3,6 +3,7 @@ import { LuSend } from 'react-icons/lu';
 import { useParams } from 'react-router-dom';
 import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import Swal from 'sweetalert2';
 
 const UpdateTracking = () => {
     useEffect(() => {
@@ -19,8 +20,9 @@ const UpdateTracking = () => {
             const res = await axiosSecure.get(`/order/${OrderId}`);
             return res.data;
         },
-        
+
     });
+
 
     // Update currentLocation jokhon orders fetch hobe
     useEffect(() => {
@@ -38,6 +40,13 @@ const UpdateTracking = () => {
         try {
             await axiosSecure.patch(`/order/${OrderId}?place=${fieldName}&location=${location}`);
             refetch(); // update orders
+            Swal.fire({
+                title: "Tracking Updated",
+                icon: "success",
+                timer: 1200,
+                showConfirmButton: false,
+                timerProgressBar: true,
+            });
         } catch (err) {
             console.log(err);
         }
@@ -68,9 +77,8 @@ const UpdateTracking = () => {
                         </div>
                         <div
                             onClick={() => handleUpdateTrack(step.name, step.location)}
-                            className={`cursor-pointer timeline-end timeline-box bg-transparent flex gap-2 items-center ${
-                                currentLocation === step.location ? 'border-green-400 text-green-400' : ''
-                            }`}
+                            className={`cursor-pointer timeline-end timeline-box bg-transparent flex gap-2 items-center ${currentLocation === step.location ? 'border-2 border-green-400 text-green-400' : ''
+                                }`}
                         >
                             <span className='flex gap-2 items-center text-info'> <LuSend size={20} /> Send</span> | {step.label}
                         </div>

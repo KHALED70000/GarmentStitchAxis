@@ -20,6 +20,7 @@ import PendingOrders from "./LayOuts/DashBoard/PendingOrders";
 import ApprovedOrders from "./LayOuts/DashBoard/ApprovedOrders";
 import ManageProduct from "./LayOuts/DashBoard/ManageProduct";
 import UpdateTracking from "./LayOuts/DashBoard/UpdateTracking";
+import ViewTracking from "./LayOuts/DashBoard/ViewTracking";
 
 export const router = createBrowserRouter([
     {
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
             {
                 path: 'Update-Tracking/:id',
                 element: <UpdateTracking/>
+            },
+            {
+                path: 'View-Tracking/:id',
+                element: <ViewTracking/>
             },
             {
                 path: "*",

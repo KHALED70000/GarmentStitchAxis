@@ -218,7 +218,7 @@ const ApprovedOrders = () => {
 
                             <div className='flex gap-3 justify-between mt-6'>
                                 <NavLink to={`/Update-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-green-400'>Update Tracking</NavLink>
-                                <NavLink className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-gray-500 text-gray-400'>View Tracking</NavLink>
+                                <NavLink to={`/View-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-gray-500 text-gray-400'>View Tracking</NavLink>
                             </div>
 
                             <div className={`flex flex-col gap-4 mt-6`}>
