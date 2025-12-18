@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 
 const AllProduct = () => {
-    
+
     useEffect(() => {
         document.title = "NestCloth | All-Product";
     }, []);
@@ -23,7 +23,7 @@ const AllProduct = () => {
 
     return (
         <div>
-            All-Product{Products.length}
+          
             <h2 className='section-title'>All Phoduct Here:</h2>
             <p className='text-xl font-bold my-4'> Total Available Product: "<span>{Products.length}</span>"</p>
 
@@ -41,7 +41,7 @@ const AllProduct = () => {
                             <p className=' font-bold '>Category: <span className='capitalize'>{Product.Category}</span></p>
                             <span className='font-semibold'>  {Product.AOQ} Pice</span>
                         </div>
-                        <NavLink to={`/ViewDetails/${Product._id}`} className='btn btn-info w-full mb-2 mt-4'>View Details</NavLink>
+                        <NavLink to={`/View-Details/${Product._id}`} className='btn btn-info w-full mb-2 mt-4'>View Details</NavLink>
                     </div>)
                 }
             </div>

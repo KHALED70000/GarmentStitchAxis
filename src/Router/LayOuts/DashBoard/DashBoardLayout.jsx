@@ -135,10 +135,10 @@ const DashBoardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/DashBoard/Manage-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Product">
+                                    <NavLink to='/DashBoard/Manage-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Product">
                                         {/* Home icon */}
                                         <MdOutlineManageHistory size={22} />
-                                        <span className="is-drawer-close:hidden">Add Product</span>
+                                        <span className="is-drawer-close:hidden">Manage Product</span>
                                     </NavLink>
                                 </li>
                                  <li>

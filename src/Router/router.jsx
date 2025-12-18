@@ -21,12 +21,13 @@ import ApprovedOrders from "./LayOuts/DashBoard/ApprovedOrders";
 import ManageProduct from "./LayOuts/DashBoard/ManageProduct";
 import UpdateTracking from "./LayOuts/DashBoard/UpdateTracking";
 import ViewTracking from "./LayOuts/DashBoard/ViewTracking";
+import EditProduct from "./LayOuts/DashBoard/EditProduct";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <Rootlayout />,
-        errorElement: <Error404 />,
+        // errorElement: <Error404 />,
         children: [
             {
                 path: '/',
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
                 element: <Contact />,
             },
             {
-                path: '/ViewDetails/:id',
+                path: '/View-Details/:id',
                 element:<PrivateRoutes> <ViewDetails/> </PrivateRoutes>,
             },
             {
@@ -58,9 +59,13 @@ export const router = createBrowserRouter([
                 element: <ViewTracking/>
             },
             {
-                path: "*",
-                element: <Error404 />
-            }
+                path: 'Edit-Product/:id',
+                element: <EditProduct/>
+            },
+            // {
+            //     path: "*",
+            //     element: <Error404 />
+            // }
         ]
     },
     {
@@ -105,7 +110,7 @@ export const router = createBrowserRouter([
             {
                 path: 'Manage-Product',
                 element: <ManageProduct/>
-            }
+            },
         ],
     }
 ])
