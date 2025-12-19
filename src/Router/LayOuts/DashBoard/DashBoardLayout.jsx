@@ -19,7 +19,6 @@ import { SlHandbag } from "react-icons/sl";
 
 
 const DashBoardLayout = () => {
-
      useEffect(() => {
             document.title = "Dashboard";
         }, []);
@@ -159,8 +158,15 @@ const DashBoardLayout = () => {
                             </>
                         }
 
-
-
+                        <li>
+                            <NavLink to='/DashBoard/User-Profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Your Profile">
+                                {/* Home icon */}
+                                <div>
+                                    <img className={`rounded-full`} src={user?.photoURL} alt="" />
+                                </div>
+                                <span className="is-drawer-close:hidden">Profile</span>
+                            </NavLink>
+                        </li>
 
 
                         <li>

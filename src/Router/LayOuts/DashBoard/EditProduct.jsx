@@ -197,7 +197,7 @@ const EditProduct = () => {
 
                 reset();
                 setSelectedFiles([]);
-                navigate("/All-Product");
+                navigate(`/View-Details/${id}`);
             }
 
         } catch (error) {

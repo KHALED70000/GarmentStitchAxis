@@ -64,12 +64,12 @@ const ViewTracking = () => {
     return (
         <div>
             <h1 className='section-title'>Order Info</h1>
-            <div className='max-w-200 mx-auto p-5 rounded-3xl border-2 border-dashed'>
-                <p className='italic border border-b-0 p-2 rounded-t-xl'><span className='text-xl font-bold text-gray-400'>Product Name: </span> {orders?.ProductName}</p>
-                <p className='italic border p-2'><span className='text-xl font-bold text-gray-400'>Order Price: </span> {orders?.Product_pice} $</p>
-                <p className='italic border border-t-0 p-2'><span className='text-xl font-bold text-gray-400'>Order Quantity: </span> {orders?.Order_Quantity} Pice</p>
-                <p className='italic border border-t-0 p-2'><span className='text-xl font-bold text-gray-400'>Buyer Email: </span> <a href={`mailto:${orders?.BuyerEmail}`} className='underline text-info'>{orders?.BuyerEmail}</a></p>
-                <p className='italic border border-t-0 p-2 rounded-b-xl'><span className='text-xl font-bold text-gray-400'>Order ID: </span> "{orders?._id}"</p>
+            <div className='max-w-200 mx-auto p-3 rounded-3xl border-2 border-dashed'>
+                <p className='px-4 flex justify-between items-center italic border border-b-0 p-2 rounded-t-xl'><span className='text-xl font-bold text-gray-400'>Product Name: </span> {orders?.ProductName}</p>
+                <p className='px-4 flex justify-between items-center italic border p-2'><span className='text-xl font-bold text-gray-400'>Order Price: </span> {orders?.Order_Price} $</p>
+                <p className='px-4 flex justify-between items-center italic border border-t-0 p-2'><span className='text-xl font-bold text-gray-400'>Order Quantity: </span> {orders?.Order_Quantity} Pice</p>
+                <p className='px-4 flex justify-between items-center italic border border-t-0 p-2'><span className='text-xl font-bold text-gray-400'>Buyer Email: </span> <a href={`mailto:${orders?.BuyerEmail}`} className='underline text-info'>{orders?.BuyerEmail}</a></p>
+                <p className='px-4 flex justify-between items-center italic border border-t-0 p-2 rounded-b-xl'><span className='text-xl font-bold text-gray-400'>Order ID: </span> "{orders?._id}"</p>
                 
                 
             </div>

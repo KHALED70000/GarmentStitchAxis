@@ -22,6 +22,7 @@ import ManageProduct from "./LayOuts/DashBoard/ManageProduct";
 import UpdateTracking from "./LayOuts/DashBoard/UpdateTracking";
 import ViewTracking from "./LayOuts/DashBoard/ViewTracking";
 import EditProduct from "./LayOuts/DashBoard/EditProduct";
+import UserProfile from "./LayOuts/DashBoard/UserProfile";
 
 export const router = createBrowserRouter([
     {
@@ -110,6 +111,10 @@ export const router = createBrowserRouter([
             {
                 path: 'Manage-Product',
                 element: <ManageProduct/>
+            },
+            {
+                path: 'User-Profile',
+                element: <UserProfile/>
             },
         ],
     }
