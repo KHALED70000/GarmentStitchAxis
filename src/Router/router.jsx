@@ -23,6 +23,9 @@ import UpdateTracking from "./LayOuts/DashBoard/UpdateTracking";
 import ViewTracking from "./LayOuts/DashBoard/ViewTracking";
 import EditProduct from "./LayOuts/DashBoard/EditProduct";
 import UserProfile from "./LayOuts/DashBoard/UserProfile";
+import MyOrders from "./LayOuts/DashBoard/MyOrders";
+import TrackOrders from "./LayOuts/DashBoard/TrackOrders";
+import EditOrder from "./LayOuts/DashBoard/EditOrder";
 
 export const router = createBrowserRouter([
     {
@@ -62,6 +65,10 @@ export const router = createBrowserRouter([
             {
                 path: 'Edit-Product/:id',
                 element: <EditProduct/>
+            },
+            {
+                path: 'Edit-Order/:id',
+                element: <EditOrder/>
             },
             // {
             //     path: "*",
@@ -115,6 +122,14 @@ export const router = createBrowserRouter([
             {
                 path: 'User-Profile',
                 element: <UserProfile/>
+            },
+            {
+                path: 'My-Orders',
+                element: <MyOrders/>
+            },
+            {
+                path: 'Track-Orders',
+                element: <TrackOrders/>
             },
         ],
     }

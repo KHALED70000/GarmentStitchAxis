@@ -1,9 +1,9 @@
 import { FiClock, FiPackage, FiShoppingBag } from 'react-icons/fi';
-import { IoReorderThreeOutline } from "react-icons/io5";
+import { IoLocationOutline, IoReorderThreeOutline } from "react-icons/io5";
 import { NavLink, Outlet, useNavigate } from 'react-router';
 import { RxDashboard } from "react-icons/rx";
 import { useEffect, useState } from 'react';
-import { MdLightMode, MdNightlightRound, MdOutlineManageHistory } from 'react-icons/md';
+import { MdLightMode, MdLocationOn, MdNightlightRound, MdOutlineManageHistory } from 'react-icons/md';
 import { FaUserGear } from "react-icons/fa6";
 import LaggeWhiteLogo from "../../../assets/LaggeWhiteLogo.png"
 import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
@@ -11,7 +11,7 @@ import useAuth from '../../../HooKs/useAuth';
 import useRole from '../../../HooKs/useRole';
 import { LuPlus } from "react-icons/lu";
 import { FaProductHunt } from 'react-icons/fa';
-import { AiOutlineCheckCircle, AiOutlineUnorderedList } from 'react-icons/ai';
+import { AiOutlineCheckCircle, AiOutlineShoppingCart, AiOutlineUnorderedList } from 'react-icons/ai';
 import Footer from '../FixedLayOut/Footer';
 import { SlHandbag } from "react-icons/sl";
 
@@ -19,9 +19,9 @@ import { SlHandbag } from "react-icons/sl";
 
 
 const DashBoardLayout = () => {
-     useEffect(() => {
-            document.title = "Dashboard";
-        }, []);
+    useEffect(() => {
+        document.title = "Dashboard";
+    }, []);
 
     const navigate = useNavigate();
     const { user, logOut } = useAuth();
@@ -84,10 +84,10 @@ const DashBoardLayout = () => {
                 <div className={`p-4 m-4 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} rounded-2xl shadow-sm mt-20 z-20`}>
                     <Outlet></Outlet>
                 </div>
-                
+
             </div>
 
-            
+
 
             <div className="drawer-side is-drawer-close:overflow-visible shadow-sm">
                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
@@ -140,28 +140,47 @@ const DashBoardLayout = () => {
                                         <span className="is-drawer-close:hidden">Manage Product</span>
                                     </NavLink>
                                 </li>
-                                 <li>
+                                <li>
                                     <NavLink to='/DashBoard/Pending-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Orders">
                                         {/* Home icon */}
                                         <SlHandbag size={20} />
                                         <span className="is-drawer-close:hidden">Pending Orders</span>
                                     </NavLink>
                                 </li>
-                                 <li>
+                                <li>
                                     <NavLink to='/DashBoard/Approved-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Orders">
                                         {/* Home icon */}
                                         <AiOutlineCheckCircle size={23} />
                                         <span className="is-drawer-close:hidden">Approved Orders</span>
                                     </NavLink>
                                 </li>
-                                 
+
                             </>
                         }
+
+                       {/* { role === 'buyer' && } */}
+                       <>
+                            <li>
+                                <NavLink to='/DashBoard/My-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
+                                    {/* Home icon */}
+                                    <AiOutlineShoppingCart size={22} />
+                                    <span className="is-drawer-close:hidden">My Orders</span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to='/DashBoard/Track-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Track Orders">
+                                    {/* Home icon */}
+                                    <IoLocationOutline size={23} />
+                                    <span className="is-drawer-close:hidden">Track Orders</span>
+                                </NavLink>
+                            </li>
+                        </>
+
 
                         <li>
                             <NavLink to='/DashBoard/User-Profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Your Profile">
                                 {/* Home icon */}
-                                <div>
+                                <div className='w-5.5'>
                                     <img className={`rounded-full`} src={user?.photoURL} alt="" />
                                 </div>
                                 <span className="is-drawer-close:hidden">Profile</span>

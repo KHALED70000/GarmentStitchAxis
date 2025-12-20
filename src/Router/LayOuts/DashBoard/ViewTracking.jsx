@@ -26,11 +26,12 @@ const ViewTracking = () => {
     const { data: orders = {} } = useQuery({
         queryKey: ['orders', OrderId],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/order/${OrderId}`);
-            return res.data;
+            const res = await axiosSecure.get(`/EditOrder/${OrderId}`);
+            return res.data.data;
         },
 
     });
+
 
 
     // Update currentLocation jokhon orders fetch hobe
@@ -45,7 +46,6 @@ const ViewTracking = () => {
         }
     }, [orders]);
 
-    console.log(orders?.ProductName)
 
     if (currentLocation === '22.3569|91.7832') {
         return (<div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">

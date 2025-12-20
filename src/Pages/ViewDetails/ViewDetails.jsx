@@ -7,8 +7,11 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../HooKs/useAuth';
 import { TfiWrite } from "react-icons/tfi";
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
+// import { useNavigate } from 'react-router-dom';
 
 const ViewDetails = () => {
+  const navigate = useNavigate();
   const [openForm, setOpenForm] = useState(false);
   const [orderPrice, setOrderPrice] = useState();
   const [alokChitro, srtAlokChitro] = useState();
@@ -58,6 +61,7 @@ const ViewDetails = () => {
           reset()
           setOpenForm(false);
           setOrderPrice('')
+          navigate('/DashBoard/My-Orders')
           Swal.fire({
             title: 'Successfully Submited..!',
             icon: "success",

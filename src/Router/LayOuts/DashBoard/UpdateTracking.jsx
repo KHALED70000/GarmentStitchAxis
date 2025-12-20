@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
+import { FcShipped } from 'react-icons/fc';
 
 const UpdateTracking = () => {
     useEffect(() => {
@@ -15,14 +16,13 @@ const UpdateTracking = () => {
     const [currentLocation, setCurrentLocation] = useState('Empty');
 
     const { data: orders = {}, refetch } = useQuery({
-        queryKey: ['orders', OrderId],
+        queryKey: ['EditOrder', OrderId],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/order/${OrderId}`);
-            return res.data;
+            const res = await axiosSecure.get(`/EditOrder/${OrderId}`);
+            return res.data.data;
         },
 
     });
-
 
     // Update currentLocation jokhon orders fetch hobe
     useEffect(() => {
@@ -38,7 +38,7 @@ const UpdateTracking = () => {
 
     const handleUpdateTrack = async (fieldName, location) => {
         try {
-            await axiosSecure.patch(`/order/${OrderId}?place=${fieldName}&location=${location}`);
+            await axiosSecure.patch(`/CuttingUpdateOrder/${OrderId}?place=${fieldName}&location=${location}`);
             refetch(); // update orders
             Swal.fire({
                 title: "Tracking Updated",
@@ -51,6 +51,21 @@ const UpdateTracking = () => {
             console.log(err);
         }
     };
+
+    
+        if (currentLocation === '22.3569|91.7832') {
+            return (<div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
+    
+                <p className='text-gray-400'><FcShipped size={90} /></p>
+    
+                <h3 className="mt-2 text-lg font-semibold">
+                    Order Delivered
+                </h3>
+                <p className="mt-1 text-sm text-gray-500 max-w-sm">
+                    New orders will appear here once customers place their purchases.
+                </p>
+            </div>)
+        }
 
     return (
         <div>

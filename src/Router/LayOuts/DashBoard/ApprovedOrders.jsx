@@ -51,10 +51,10 @@ const ApprovedOrders = () => {
         Swal.fire({
             title: isApprove
                 ? "Approve this order?"
-                : "Reject this order?",
+                : "Disapporve this order?",
             text: isApprove
                 ? "This action will mark the order as approved."
-                : "This action will reject the order.",
+                : "This action will Disapporve the order.",
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: isApprove ? "Approve" : "Reject",
@@ -162,8 +162,8 @@ const ApprovedOrders = () => {
                             <td>
                                 <div className='flex gap-2'>
                                     {/* <button onClick={() => handleApprodeOrder(order)} className={`btn btn-sm bg-transparent text-green-500 border-2 rounded-[7px] border-green-500 `}>Pending</button> */}
-                                    <button onClick={() => handleRejectOrder(order)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Disapprove</button>
-                                    <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
+                                    <NavLink to={`/Update-Tracking/${order._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-green-400'>Update Tracking</NavLink>
+                                    <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>Details</button>
                                 </div>
                             </td>
                         </tr>)
@@ -212,13 +212,13 @@ const ApprovedOrders = () => {
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Date: </span> <span>{orderView.approvedAt.slice(0, 10)}</span></p>
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Payment Mode: </span> <span>{orderView.ProductPaymentMode}</span></p>
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Buyer Address: </span> <span className='max-w-60 text-justify'>{orderView.Buyer_Address}</span></p>
-                                    <p className='text-gray-400'>{orderView?.Trackings?.Cutting}</p>
+                                    {/* <p className='text-gray-400'>{orderView?.Trackings?.Cutting}</p> */}
                                 </div>
                             </div>
 
                             <div className='flex gap-3 justify-between mt-6'>
-                                <NavLink to={`/Update-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-green-400'>Update Tracking</NavLink>
-                                <NavLink to={`/View-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-gray-500 text-gray-400'>View Tracking</NavLink>
+                                <NavLink to={`/View-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-gray-400'>View Tracking</NavLink>
+                                <button onClick={() => handleRejectOrder(orderView)} className={`w-full text-center py-1 bg-transparent border-warning text-red-600  border-2 rounded-[7px]`}>Disapprove</button>
                             </div>
 
                             <div className={`flex flex-col gap-4 mt-6`}>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Footer from "../FixedLayOut/Footer";
 
 const ManagerDashboardHome = () => {
 
@@ -13,6 +14,7 @@ const ManagerDashboardHome = () => {
             <div className="text-center ">
                 {/* Placeholder Icon / Emoji */}
                 <div className="text-9xl animate-bounce">⚽</div>
+                <div className="text-9xl h-2 rounded-full w-50 mx-auto bg-blue-400"></div>
 
                 <h1 className="text-3xl font-bold  mt-6">Page Under Development</h1>
                 <p className="mt-4 text-gray-400">
@@ -33,6 +35,9 @@ const ManagerDashboardHome = () => {
                     <Link className="inline-block px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition" to='/DashBoard/Approved-Orders'>Approvd Orders</Link>
                     <Link className="inline-block px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition" to='/DashBoard/User-Profile'>Profile</Link>
                 </div>
+            </div>
+            <div className={`mt-10`}>
+                <Footer></Footer>
             </div>
         </div>
     );

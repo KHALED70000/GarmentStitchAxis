@@ -7,13 +7,19 @@ import Swal from 'sweetalert2';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RxCross2 } from 'react-icons/rx';
 import { TbMoodEmptyFilled } from "react-icons/tb";
+import { FaRegEdit } from 'react-icons/fa';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import useAuth from '../../../HooKs/useAuth';
 
 
 
-const PendingOrders = () => {
+
+
+const TrackOrders = () => {
     const [openForm, setOpenForm] = useState(false);
     const [orderView, setOrderView] = useState();
-    const [orderStatus, setOrderStatus] = useState('pending')
+    // const [orderStatus, setOrderStatus] = useState('')
+    const {user} = useAuth();
 
     const axiosSecure = useAxiosSecure();
     const {
@@ -21,22 +27,32 @@ const PendingOrders = () => {
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['orders', orderStatus],
+        queryKey: ['CurrentBuyersOrders'],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/orders?status=${orderStatus}`);
+            const res = await axiosSecure.get(`/CurrentBuyersOrders?status=approved`);
             return res.data;
         },
     });
+    console.log(orders)
 
+    // const handleApprovedOrderStatus = () => {
+    //     setOrderStatus('approved')
+    //     refetch();
+    // }
 
-    const handlePendingOrderStatus = () => {
-        setOrderStatus('pending')
-        refetch();
-    }
-    const handleRejectgOrderStatus = () => {
-        setOrderStatus('rejected')
-        refetch();
-    }
+    // const handleAllOrderStatus = () => {
+    //     setOrderStatus('')
+    //     refetch();
+    // }
+
+    // const handlePendingOrderStatus = () => {
+    //     setOrderStatus('pending')
+    //     refetch();
+    // }
+    // const handleRejectgOrderStatus = () => {
+    //     setOrderStatus('rejected')
+    //     refetch();
+    // }
 
     if (isLoading) {
         return (<div className="flex justify-center items-center h-screen">
@@ -44,79 +60,63 @@ const PendingOrders = () => {
         </div>)
     }
 
-
-    const habdleActionOrder = (order, status) => {
-        const isApprove = status === 'approved';
-
-        Swal.fire({
-            title: isApprove
-                ? "Approve this order?"
-                : "Reject this order?",
-            text: isApprove
-                ? "This action will mark the order as approved."
-                : "This action will reject the order.",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: isApprove ? "Approve" : "Reject",
-            cancelButtonText: "Not yet",
-            confirmButtonColor: isApprove ? "#16a34a" : "#dc2626",
-            cancelButtonColor: "#6b7280",
-        }).then((result) => {
-            if (result.isConfirmed) {
-                axiosSecure
-                    .patch(`/order?orderId=${order._id}&status=${status}`)
-                    .then(() => {
-                        refetch();
-                        Swal.fire({
-                            title: isApprove
-                                ? "Order Approved!"
-                                : "Order Rejected!",
-                            icon: "success",
-                            timer: 1200,
-                            showConfirmButton: false,
-                            timerProgressBar: true,
-                        });
-                    })
-                    .catch(err => {
-                        Swal.fire({
-                            title: "Something went wrong!",
-                            text: "Please try again.",
-                            icon: "error",
-                        });
-                        console.error(err);
-                    });
-            }
-        });
-    };
-
-
-    const handleApprodeOrder = (order) => {
-        habdleActionOrder(order, 'approved')
-    }
-    const handleRejectOrder = (order) => {
-        habdleActionOrder(order, 'rejected')
-    }
-
-
-
-
     const handelView = (order) => {
         setOpenForm(true);
         setOrderView(order)
     }
 
 
+    const handleDeleteOrder = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This order will be permanently deleted!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc2626', // red
+            cancelButtonColor: '#6b7280',  // gray
+            confirmButtonText: 'Yes, delete it',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/order/${id}`)
+                    .then(() => {
+                        refetch()
+                        setOpenForm(false);
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: 'Order has been deleted successfully.',
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false,
+                        });
+                        refetch();
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Something went wrong. Please try again.',
+                            icon: 'error',
+                        });
+                    });
+            }
+        });
+    };
+
+
+
 
     return (
         <div>
             <div>
-                <h1 className='text-2xl font-bold text-center mt-4 mb-10'>New Order Here:</h1>
+                <h1 className='text-2xl font-bold text-center mt-4 mb-10'>All Orders Here:</h1>
                 <div className='flex justify-between my-4'>
                     <p className='my-3'>Total Orders: '{orders.length}'</p>
-                    <div className='flex gap-2'>
+                    {/* <div className='flex gap-2'>
+                        <button onClick={handleAllOrderStatus} className={`px-5 py-1 rounded-[5px] cursor-pointer ${orderStatus === '' && 'border-2'}`}>All Orders</button>
+                        <button onClick={handleApprovedOrderStatus} className={`px-5 py-1 rounded-[5px] cursor-pointer ${orderStatus === 'approved' && 'border-2'}`}>Approved Orders</button>
                         <button onClick={handlePendingOrderStatus} className={`px-5 py-1 rounded-[5px] cursor-pointer ${orderStatus === 'pending' && 'border-2'}`}>Pending Orders</button>
                         <button onClick={handleRejectgOrderStatus} className={`px-5 py-1 rounded-[5px] cursor-pointer ${orderStatus === 'rejected' && 'border-2'} `}>Rejected Orders</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -126,7 +126,7 @@ const PendingOrders = () => {
                     <tr className='text-gray-400'>
                         <th>#</th>
                         <th>Order ID</th>
-                        <th>User</th>
+                        {/* <th>User</th> */}
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Order Date</th>
@@ -139,7 +139,7 @@ const PendingOrders = () => {
                         orders.map((order, index) => <tr key={order._id}>
                             <th>{index + 1}</th>
                             <td>{order._id}</td>
-                            <td>{order.FirstName} {order.LastName}</td>
+                            {/* <td>{order.FirstName} {order.LastName}</td> */}
                             <td>{order.ProductName}</td>
                             <td >{order.Order_Quantity} Pice</td>
                             <td>{order.createdAt.slice(0, 10)}</td>
@@ -148,9 +148,14 @@ const PendingOrders = () => {
 
                             <td>
                                 <div className='flex gap-2'>
-                                    <button onClick={() => handleApprodeOrder(order)} className={`btn btn-sm bg-transparent text-green-500 border-2 rounded-[7px] border-green-500 `}>Approve</button>
-                                    <button onClick={() => handleRejectOrder(order)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Reject</button>
-                                    <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>view</button>
+                                    { (order.status === 'pending' || order.status === 'rejected') &&
+                                        <button onClick={() => handleDeleteOrder(order._id)} className={`btn btn-sm btn-warning bg-transparent  border-2 rounded-[7px]`}>Cancel Order</button>
+                                    }
+                                    {
+                                      order.status === 'approved' && 
+                                      <NavLink to={`/View-Tracking/${order._id}`} className='px-3 text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-gray-400'>View Tracking</NavLink>
+                                    }
+                                    <button onClick={() => handelView(order)} className={`btn btn-sm bg-transparent text-gray-400 border-2 rounded-[7px] border-gray-400`}>Details</button>
                                 </div>
                             </td>
                         </tr>)
@@ -199,6 +204,10 @@ const PendingOrders = () => {
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Payment Mode: </span> <span>{orderView.ProductPaymentMode}</span></p>
                                     <p className='flex border-b justify-between text-gray-400'> <span className='font-bold'>Buyer Address: </span> <span className='max-w-60'>{orderView.Buyer_Address}</span></p>
                                 </div>
+                                {/* <div className='flex gap-3 mt-5'>
+                                    <button className='flex justify-center gap-2 items-center py-1 px-4 border-2 w-full rounded-lg border-green-500 '><FaRegEdit size={20} /> Edit</button>
+                                    <button onClick={() => handleDeleteOrder(orderView._id)} className='flex justify-center gap-2 items-center py-1 px-4 border-2 w-full rounded-lg border-red-500'><RiDeleteBin6Line size={20} /> Delete</button>
+                                </div> */}
                             </div>
 
 
@@ -219,4 +228,4 @@ const PendingOrders = () => {
     );
 };
 
-export default PendingOrders;
+export default TrackOrders;
