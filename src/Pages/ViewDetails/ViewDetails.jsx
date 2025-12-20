@@ -103,7 +103,7 @@ const ViewDetails = () => {
         <div>
           <div className="w-full h-80">
             <img
-              src={alokChitro || product.photos[0]}
+              src={alokChitro || product.photos?.[0]}
               alt={product.ProductName}
               className="w-full h-full rounded-lg object-cover"
             />

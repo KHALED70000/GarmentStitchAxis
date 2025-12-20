@@ -96,7 +96,7 @@ const ViewTracking = () => {
                         </div>
                         <div
                             // onClick={() => handleUpdateTrack(step.name, step.location)}
-                            className={`cursor-default timeline-end timeline-box bg-transparent flex gap-2 items-center ${currentLocation === step.location ? 'border-2 border-green-400 text-green-400' : ''
+                            className={`cursor-not-allowed timeline-end timeline-box bg-transparent flex gap-2 items-center ${currentLocation === step.location ? 'animate-pulse border-2 border-green-400 text-green-400' : ''
                                 }`}
                         >
                             <span className='flex gap-2 items-center text-info'></span> {step.label}

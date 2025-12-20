@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import useAuth from '../../../HooKs/useAuth';
 import useAxiosSecure from '../../../HooKs/useAxiosSecure';
@@ -7,12 +8,14 @@ import Swal from 'sweetalert2';
 import { TbMoodEmptyFilled } from 'react-icons/tb';
 import { IoMdSearch } from "react-icons/io";
 import useRole from '../../../HooKs/useRole';
+import { CiSearch } from "react-icons/ci";
 
-const ManageProduct = () => {
+
+const AllAdminProduct = () => {
     const [productStatus, setProductStatus] = useState('');
     const [searchText, setSearchText] = useState('');
     const { user, logOut } = useAuth();
-    const {role}=useRole();
+    const { role } = useRole();
 
     useEffect(() => {
         document.title = "Manage-Product";
@@ -24,7 +27,7 @@ const ManageProduct = () => {
     const { data: Products = [], refetch, isLoading } = useQuery({
         queryKey: ['products', user?.email, productStatus],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/products?email=${user?.email}&status=${productStatus}`);
+            const res = await axiosSecure.get(`/products?status=${productStatus}`);
             return res.data;
         }
     });
@@ -82,7 +85,7 @@ const ManageProduct = () => {
         setSearchText(input);
     };
 
-    if (role !== 'manager') {
+    if (role !== 'admin') {
         return (
             <div className="flex flex-col items-center justify-center h-screen ">
                 <div className=" p-8 rounded-lg shadow-lg text-center bg-gray-950">
@@ -106,6 +109,73 @@ const ManageProduct = () => {
         );
     }
 
+    const handleSHPtrue = (poduc) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `You Want to Show ${poduc.ProductName}" on Home Page?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, set it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/product/${poduc._id}/shp`, { SHP: true })
+                    .then(() => {
+                        refetch();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'SHP is TRUE now',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to update SHP',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        console.log(err)
+                    })
+            }
+        })
+    }
+
+    const handleSHPfalse = (poduc) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: `You Want to Remove "${poduc.ProductName}" from Home Page?`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, set it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.patch(`/product/${poduc._id}/shp`, { SHP: false })
+                    .then(() => {
+                        refetch();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'SHP is FALSE now',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    })
+                    .catch(err => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed to update SHP',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        console.log(err)
+                    })
+            }
+        })
+    }
+
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
@@ -113,10 +183,9 @@ const ManageProduct = () => {
             </div>
         );
     }
-
     return (
         <div>
-            <h1 className='text-2xl font-bold text-center mt-4 mb-10'>Manage Your Products:</h1>
+            <h1 className='text-2xl font-bold text-center mt-4 mb-10'>All Products:</h1>
 
             <div className='flex flex-wrap gap-2 justify-between mb-4'>
                 <p className='my-4 capitalize'>Total Products: "{Products.length}"</p>
@@ -175,7 +244,7 @@ const ManageProduct = () => {
                                     <td>{index + 1}</td>
                                     <td>
                                         <div className='w-22 h-15'>
-                                            <img className='w-full h-full rounded-xl' src={Product.photos[0]} alt="" />
+                                            <img className='w-full h-full rounded-xl' src={Product.photos?.[0]} alt="" />
                                         </div>
                                     </td>
                                     <td>{Product.ProductName}</td>
@@ -184,10 +253,20 @@ const ManageProduct = () => {
                                     <td className={`${Product.status === 'pending' ? 'text-yellow-400' : 'text-green-400'} capitalize`}>{Product.status}</td>
                                     <td className='flex gap-2'>
                                         <div className="flex gap-2">
+                                            <div>
+                                                {
+                                                    Product.SHP === true 
+                                                    ? <button onClick={() => handleSHPfalse(Product)} className='btn btn-sm bg-gray-900 border-2 border-yellow-400 rounded-lg text-red-400'>Remove From Home Page</button> 
+                                                    : <button onClick={() => handleSHPtrue(Product)} className='btn btn-sm bg-gray-900 border-2 border-green-400 rounded-lg text-green-400'>Show On Home Page</button>
+                                                }
+                                                
+                                                
+                                            </div>
                                             <NavLink to={`/Edit-Product/${Product._id}`} className="btn btn-sm bg-transparent border-2 border-blue-400 rounded-lg text-blue-400 hover:bg-blue-400/10">Edit</NavLink>
                                             <button onClick={() => handleDeleteProduct(Product)} className="btn btn-sm bg-transparent border-2 border-red-400 rounded-lg text-red-400 hover:bg-red-400/10">Delete</button>
                                         </div>
-                                        <NavLink to={`/View-Details/${Product._id}`} className='btn btn-sm bg-transparent border-2 border-gray-400 rounded-lg text-gray-400'>View</NavLink>
+                                        <NavLink to={`/View-Details/${Product._id}`} className='btn btn-sm bg-transparent border-2 border-gray-400 rounded-lg text-gray-400'><CiSearch size={20} /></NavLink>
+                                        {/* <button className='btn btn-sm bg-transparent border-2 border-gray-400 rounded-lg text-gray-400'>Manage</button> */}
                                     </td>
                                 </tr>
                             ))}
@@ -205,4 +284,4 @@ const ManageProduct = () => {
     );
 };
 
-export default ManageProduct;
+export default AllAdminProduct;

@@ -5,11 +5,18 @@ import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { FcShipped } from 'react-icons/fc';
+import useRole from '../../../HooKs/useRole';
+import useAuth from '../../../HooKs/useAuth';
 
 const UpdateTracking = () => {
     useEffect(() => {
-        document.title = "Live-Tracking";
+        document.title = "Update-Tracking";
     }, []);
+
+    const {role} = useRole();
+    const {logOut} =useAuth();
+
+
 
     const { id: OrderId } = useParams(); // useParams er id property
     const axiosSecure = useAxiosSecure();
@@ -52,20 +59,46 @@ const UpdateTracking = () => {
         }
     };
 
+    if (role !== 'manager') {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen ">
+                <div className=" p-8 rounded-lg shadow-lg text-center bg-gray-950">
+                    <h1 className="text-2xl font-bold mb-4 text-red-600">
+                        Access Denied
+                    </h1>
+                    <p className="mb-6 text-gray-400">
+                        The page is not for you, cause this page is only for Managers.
+                    </p>
+                    <div className="flex justify-center gap-4">
+                        <button className="px-4 py-2 bg-blue-500  rounded hover:bg-blue-600 transition">
+                            Go Back
+                        </button>
+                        <button onClick={logOut} className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 transition">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
+
+    if (currentLocation === '22.3569|91.7832') {
+        return (<div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
+
+            <p className='text-gray-400'><FcShipped size={90} /></p>
+
+            <h3 className="mt-2 text-lg font-semibold">
+                Order Delivered
+            </h3>
+            <p className="mt-1 text-sm text-gray-500 max-w-sm">
+                New orders will appear here once customers place their purchases.
+            </p>
+        </div>)
+    }
+
     
-        if (currentLocation === '22.3569|91.7832') {
-            return (<div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
-    
-                <p className='text-gray-400'><FcShipped size={90} /></p>
-    
-                <h3 className="mt-2 text-lg font-semibold">
-                    Order Delivered
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 max-w-sm">
-                    New orders will appear here once customers place their purchases.
-                </p>
-            </div>)
-        }
 
     return (
         <div>
@@ -92,7 +125,7 @@ const UpdateTracking = () => {
                         </div>
                         <div
                             onClick={() => handleUpdateTrack(step.name, step.location)}
-                            className={`cursor-pointer timeline-end timeline-box bg-transparent flex gap-2 items-center ${currentLocation === step.location ? 'border-2 border-green-400 text-green-400' : ''
+                            className={`cursor-pointer timeline-end timeline-box bg-transparent flex gap-2 items-center ${currentLocation === step.location ? 'animate-pulse border-2 border-green-400 text-green-400' : ''
                                 }`}
                         >
                             <span className='flex gap-2 items-center text-info'> <LuSend size={20} /> Send</span> | {step.label}

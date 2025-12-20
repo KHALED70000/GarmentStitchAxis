@@ -14,6 +14,9 @@ import { FaProductHunt } from 'react-icons/fa';
 import { AiOutlineCheckCircle, AiOutlineShoppingCart, AiOutlineUnorderedList } from 'react-icons/ai';
 import Footer from '../FixedLayOut/Footer';
 import { SlHandbag } from "react-icons/sl";
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../../HooKs/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 
 
@@ -25,16 +28,53 @@ const DashBoardLayout = () => {
 
     const navigate = useNavigate();
     const { user, logOut } = useAuth();
-    const [theme, setTheme] = useState("light");
-    const toggleTheme = () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-    };
+    const axiosSecure = useAxiosSecure()
+  
+
+    const { data: UI, refetch } = useQuery({
+        queryKey: ['UIMode', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/UIMode?email=${user?.email}`)
+            return (
+                res.data
+            )
+        }
+    })
+
+
+    const handleUImode = () => {
+    let ChangedMode = UI === 'dark' ? 'light' : 'dark';
+
+    axiosSecure.patch(`/UImode?email=${user?.email}`, { UImode: ChangedMode })
+        .then(() => {
+            refetch();
+            Swal.fire({
+                icon: 'success',
+                title: 'UI Mode Changed',
+                text: `UI mode has been changed to ${ChangedMode}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        })
+        .catch(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Failed to change UI mode',
+            });
+            console.error(err);
+        });
+};
+
     useEffect(() => {
         document.documentElement.setAttribute(
             "class",
-            theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
+            UI === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
         );
-    }, [theme]);
+    }, [UI]);
+
+
 
     const { role } = useRole();
     const handleLogOut = () => {
@@ -51,12 +91,12 @@ const DashBoardLayout = () => {
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 {/* Navbar */}
-                <nav className={`navbar w-full ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} shadow-sm fixed flex justify-between left-0 top-0 z-50`}>
+                <nav className={`navbar w-full ${UI === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} shadow-sm fixed flex justify-between left-0 top-0 z-50`}>
 
                     <div className='flex items-center'>
                         <NavLink to='/'>
                             {
-                                theme === 'dark' ? <img src={LaggeWhiteLogo} className="w-40" alt="" /> : <img src={LargeDarkLogo} className="w-40" alt="" />
+                                UI === 'dark' ? <img src={LaggeWhiteLogo} className="w-40" alt="" /> : <img src={LargeDarkLogo} className="w-40" alt="" />
                             }
                         </NavLink>
 
@@ -68,7 +108,7 @@ const DashBoardLayout = () => {
                         </label>
                     </div>
                     <div className='flex'>
-                        <button onClick={toggleTheme} className={`p-2 ${theme === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{theme === 'dark' ? <MdLightMode size={30} /> : <MdNightlightRound size={30} />} </button>
+                        <button onClick={handleUImode} className={`p-2 ${UI === 'dark' ? 'text-yellow-400' : 'text-gray-950'} cursor-pointer`}>{UI === 'dark' ? <MdLightMode size={30} /> : <MdNightlightRound size={30} />} </button>
                         {
                             user && (<div className="flex gap-2">
                                 <div className="w-12 h-12 flax justify-center items-center">
@@ -81,7 +121,7 @@ const DashBoardLayout = () => {
                 </nav>
                 {/* Page content here */}
 
-                <div className={`p-4 m-4 ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} rounded-2xl shadow-sm mt-20 z-20`}>
+                <div className={`p-4 m-4 ${UI === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} rounded-2xl shadow-sm mt-20 z-20`}>
                     <Outlet></Outlet>
                 </div>
 
@@ -91,7 +131,7 @@ const DashBoardLayout = () => {
 
             <div className="drawer-side is-drawer-close:overflow-visible shadow-sm">
                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay"></label>
-                <div className={`flex min-h-full flex-col items-start ${theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} is-drawer-close:w-14 is-drawer-open:w-64`}>
+                <div className={`flex min-h-full flex-col items-start ${UI === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"} is-drawer-close:w-14 is-drawer-open:w-64`}>
                     {/* Sidebar content here */}
                     <ul className="menu w-full grow DashBoardOptions mt-16 flex gap-3">
                         {/* List item */}
@@ -114,10 +154,10 @@ const DashBoardLayout = () => {
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/DashBoard/AllProduct' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Users">
+                                    <NavLink to='/DashBoard/Admin-All-Product' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="All Product">
                                         {/* Home icon */}
                                         <FaProductHunt size={20} />
-                                        <span className="is-drawer-close:hidden">Users</span>
+                                        <span className="is-drawer-close:hidden">All Product</span>
                                     </NavLink>
                                 </li>
                             </>
@@ -158,8 +198,7 @@ const DashBoardLayout = () => {
                             </>
                         }
 
-                       {/* { role === 'buyer' && } */}
-                       <>
+                        {role === 'buyer' && <>
                             <li>
                                 <NavLink to='/DashBoard/My-Orders' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
                                     {/* Home icon */}
@@ -174,14 +213,14 @@ const DashBoardLayout = () => {
                                     <span className="is-drawer-close:hidden">Track Orders</span>
                                 </NavLink>
                             </li>
-                        </>
+                        </>}
 
 
                         <li>
                             <NavLink to='/DashBoard/User-Profile' className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Your Profile">
                                 {/* Home icon */}
-                                <div className='w-5.5'>
-                                    <img className={`rounded-full`} src={user?.photoURL} alt="" />
+                                <div className='w-5.5 h-5.5'>
+                                    <img className={`rounded-full w-full h-full`} src={user?.photoURL} alt="" />
                                 </div>
                                 <span className="is-drawer-close:hidden">Profile</span>
                             </NavLink>

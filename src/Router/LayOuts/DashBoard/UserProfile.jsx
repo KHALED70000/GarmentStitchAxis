@@ -48,8 +48,8 @@ const UserProfile = () => {
         <div>
             <div className='flex justify-center items-center flex-col mb-6'>
 
-                <div className='mt-6 relative'>
-                    <img className='rounded-full' src={user?.photoURL} alt="" />
+                <div className='mt-6 relative w-50 h-50'>
+                    <img className='rounded-full w-full h-full' src={user?.photoURL} alt="" />
                     <button className='p-2 bg-gray-900 rounded-full text-gray-400 absolute top-[80%] right-3'><IoCameraOutline size={30} /></button>
                 </div>
 
@@ -71,7 +71,7 @@ const UserProfile = () => {
 
                 <button
                     onClick={handleLogout}
-                    className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow transition"
+                    className="px-5 py-2 mb-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow transition"
                 >
                     Logout
                 </button>

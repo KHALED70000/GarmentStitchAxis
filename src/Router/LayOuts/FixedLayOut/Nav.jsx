@@ -5,30 +5,68 @@ import { MdNightlightRound } from "react-icons/md";
 import LargeDarkLogo from "../../../assets/LargeDarkLogo.png"
 import LargewhiteLogo from "../../../assets/LaggeWhiteLogo.png"
 import useAuth from "../../../HooKs/useAuth";
+import useAxiosSecure from "../../../HooKs/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
-    const navigate =useNavigate();
-    const {user, logOut} = useAuth();
+    const navigate = useNavigate();
+    const { user, logOut } = useAuth();
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+    const axiosSecure = useAxiosSecure();
+    // const [theme, setTheme] = useState();
     // Toggle function
-    const [theme, setTheme] = useState("light");
-    const toggleTheme = () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
+   
+    const { data: UI, refetch } = useQuery({
+        queryKey: ['UIMode', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/UIMode?email=${user?.email}`)
+            return (
+                res.data
+            )
+        }
+    })
+
+
+        const handleUImode = () => {
+        let ChangedMode = UI === 'dark' ? 'light' : 'dark';
+    
+        axiosSecure.patch(`/UImode?email=${user?.email}`, { UImode: ChangedMode })
+            .then(() => {
+                refetch();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'UI Mode Changed',
+                    text: `UI mode has been changed to ${ChangedMode}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to change UI mode',
+                });
+                console.error(err);
+            });
     };
+
     useEffect(() => {
         document.documentElement.setAttribute(
             "class",
-            theme === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
+            UI === "dark" ? "bg-gray-950 text-white" : "bg-white text-black"
         );
-    }, [theme]);
+    }, [UI]);
 
-    const handleLogOut = () =>{
+    const handleLogOut = () => {
         logOut()
-        .then(() =>{
-            navigate('/LogIn')
-        })
-        .catch()
+            .then(() => {
+                navigate('/LogIn')
+            })
+            .catch()
     }
 
     const Links = <>
@@ -46,30 +84,30 @@ const Navbar = () => {
         >
             All-Product
         </NavLink>
-       
+
         {
             user ? (<NavLink
-            to="/v/DashBoard-Home"
-            className="hover:text-primary transition  px-6"
-            onClick={toggleSidebar}
-        >
-            Dashboard
-        </NavLink>) : <>
-         <NavLink
-            to="/Aboutus"
-            className="hover:text-primary transition  px-6"
-            onClick={toggleSidebar}
-        >
-            About Us
-        </NavLink>
-        <NavLink
-            to="/Contact"
-            className="hover:text-primary transition  px-6"
-            onClick={toggleSidebar}
-        >
-            Contact
-        </NavLink>
-        </>
+                to="/v/DashBoard-Home"
+                className="hover:text-primary transition  px-6"
+                onClick={toggleSidebar}
+            >
+                Dashboard
+            </NavLink>) : <>
+                <NavLink
+                    to="/Aboutus"
+                    className="hover:text-primary transition  px-6"
+                    onClick={toggleSidebar}
+                >
+                    About Us
+                </NavLink>
+                <NavLink
+                    to="/Contact"
+                    className="hover:text-primary transition  px-6"
+                    onClick={toggleSidebar}
+                >
+                    Contact
+                </NavLink>
+            </>
         }
 
     </>
@@ -87,33 +125,33 @@ const Navbar = () => {
         >
             All Product
         </NavLink>
-        
-       {
-        user ? ( <NavLink
-            to="/Dashboard/DashBoard-Home"
-            className="hover:text-primary transition py-1 px-3"
-        >
-            DashBoard
-        </NavLink>) : <>
-        <NavLink
-            to="/Aboutus"
-            className="hover:text-primary transition py-1 px-3"
-        >
-            About Us
-        </NavLink>
-        <NavLink
-            to="/Contact"
-            className="hover:text-primary transition py-1 px-3"
-        >
-            Contact
-        </NavLink>
-        </>
-       }
+
+        {
+            user ? (<NavLink
+                to="/Dashboard/DashBoard-Home"
+                className="hover:text-primary transition py-1 px-3"
+            >
+                DashBoard
+            </NavLink>) : <>
+                <NavLink
+                    to="/Aboutus"
+                    className="hover:text-primary transition py-1 px-3"
+                >
+                    About Us
+                </NavLink>
+                <NavLink
+                    to="/Contact"
+                    className="hover:text-primary transition py-1 px-3"
+                >
+                    Contact
+                </NavLink>
+            </>
+        }
     </>
     return (
         <>
             {/* Navbar */}
-            <nav className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} text-black shadow-md fixed top-0 left-0 z-50 w-full`}>
+            <nav className={`${UI === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} text-black shadow-md fixed top-0 left-0 z-50 w-full`}>
                 <div className="container mx-auto px-4 py-3 flex justify-between items-center">
                     {/* Left Side: Logo & Hamburger (for mobile) */}
                     <div className="flex items-center gap-3">
@@ -133,7 +171,7 @@ const Navbar = () => {
                             <div>
                                 {/* <h1 className="font-bold text-4xl">LOGO</h1> */}
                                 {
-                                    theme === 'dark' && <img src={LargewhiteLogo} className="w-40" alt="" /> || <img src={LargeDarkLogo} className="w-40" alt="" />
+                                    UI === 'dark' && <img src={LargewhiteLogo} className="w-40" alt="" /> || <img src={LargeDarkLogo} className="w-40" alt="" />
                                 }
                             </div>
                         </Link>
@@ -147,18 +185,18 @@ const Navbar = () => {
                     {/* Right Side: Login Button */}
 
                     <div className="flex gap-2 items-center">
-                        <button onClick={toggleTheme} className={`p-2 ${theme === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{theme === 'dark' ? <MdLightMode size={30}/> : <MdNightlightRound size={30}/>} </button>
-                       {
-                        user ? ( <div className="flex gap-2">
-                            <div className="w-12 h-12 flax justify-center items-center">
-                                <img className="rounded-full h-full w-full" src={user?.photoURL} alt={user?.displayName} />
-                            </div>
-                            <button onClick={handleLogOut} className="px-4 py-1 bg-transparent border-2 border-gray-400 text-[16px] rounded-xl">Log Out</button>
-                        </div>) : ( <div className="flex gap-2">
-                            <NavLink to="/Login" className="btn bg-transparent text-white font-bold styled-button">Login</NavLink>
-                            <NavLink to="/SignUp" className="btn bg-gray-950 text-white styled-button">Sign Up</NavLink>
-                        </div>)
-                       }
+                        <button onClick={handleUImode} className={`p-2 cursor-pointer ${UI === 'dark' ? 'text-yellow-400' : 'text-gray-950'}`}>{UI === 'dark' ? <MdLightMode size={30} /> : <MdNightlightRound size={30} />} </button>
+                        {
+                            user ? (<div className="flex gap-2">
+                                <div className="w-12 h-12 flax justify-center items-center">
+                                    <img className="rounded-full h-full w-full" src={user?.photoURL} alt={user?.displayName} />
+                                </div>
+                                <button onClick={handleLogOut} className="px-4 py-1 bg-transparent border-2 border-gray-400 text-[16px] rounded-xl">Log Out</button>
+                            </div>) : (<div className="flex gap-2">
+                                <NavLink to="/Login" className="btn bg-transparent text-white font-bold styled-button">Login</NavLink>
+                                <NavLink to="/SignUp" className="btn bg-gray-950 text-white styled-button">Sign Up</NavLink>
+                            </div>)
+                        }
                     </div>
 
                 </div>

@@ -10,8 +10,7 @@ import { TbMoodEmptyFilled } from "react-icons/tb";
 import { FaRegEdit } from 'react-icons/fa';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import useAuth from '../../../HooKs/useAuth';
-
-
+import useRole from '../../../HooKs/useRole';
 
 
 const MyOrders = () => {
@@ -19,15 +18,17 @@ const MyOrders = () => {
     const [orderView, setOrderView] = useState();
     const [orderStatus, setOrderStatus] = useState('');
     // const [orderPrice, setOrderPrice] = useState();
-    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure()
+    const { user, logOut } = useAuth();
+    const { role } = useRole();
 
-    const axiosSecure = useAxiosSecure();
+
     const {
         data: orders,
         isLoading,
         refetch,
     } = useQuery({
-        queryKey: ['CurrentUserOrders', user?.email],
+        queryKey: ['CurrentUserOrders', orderStatus, user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/CurrentUserOrders?email=${user?.email}&status=${orderStatus}`);
             return res.data;
@@ -52,6 +53,7 @@ const MyOrders = () => {
         setOrderStatus('rejected')
         refetch();
     }
+
 
     if (isLoading) {
         return (<div className="flex justify-center items-center h-screen">
@@ -101,7 +103,29 @@ const MyOrders = () => {
         });
     };
 
-    // 
+    if (role !== 'buyer') {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen ">
+                <div className=" p-8 rounded-lg shadow-lg text-center bg-gray-950">
+                    <h1 className="text-2xl font-bold mb-4 text-red-600">
+                        Access Denied
+                    </h1>
+                    <p className="mb-6 text-gray-400">
+                        The page is not for you, cause this page is only for Buyers.
+                    </p>
+                    <div className="flex justify-center gap-4">
+                        <button className="px-4 py-2 bg-blue-500  rounded hover:bg-blue-600 transition">
+                            Go Back
+                        </button>
+                        <button onClick={logOut} className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 transition">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
 
 
     return (

@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RxCross2 } from 'react-icons/rx';
 import { TbMoodEmptyFilled } from "react-icons/tb";
+import useRole from '../../../HooKs/useRole';
+import useAuth from '../../../HooKs/useAuth';
 
 
 
@@ -14,10 +16,12 @@ const ApprovedOrders = () => {
     const [openForm, setOpenForm] = useState(false);
     const [orderView, setOrderView] = useState();
     // const [orderStatus, setOrderStatus] = useState('pending')
+    const {logOut} = useAuth()
+    const { role } = useRole();
 
     const axiosSecure = useAxiosSecure();
     const {
-        data: orders=[],
+        data: orders = [],
         isLoading,
         refetch,
     } = useQuery({
@@ -29,14 +33,6 @@ const ApprovedOrders = () => {
     });
 
 
-    // const handlePendingOrderStatus = ()=>{
-    //     setOrderStatus('pending')
-    //     refetch();
-    // }
-    // const handleRejectgOrderStatus = ()=>{
-    //     setOrderStatus('rejected')
-    //     refetch();
-    // }
 
     if (isLoading) {
         return (<div className="flex justify-center items-center h-screen">
@@ -98,8 +94,6 @@ const ApprovedOrders = () => {
     }
 
 
-
-
     const handelView = (order) => {
         setOpenForm(true);
         setOrderView(order)
@@ -121,6 +115,30 @@ const ApprovedOrders = () => {
     //     </>
     // }
 
+
+    if (role !== 'manager') {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen ">
+                <div className=" p-8 rounded-lg shadow-lg text-center bg-gray-950">
+                    <h1 className="text-2xl font-bold mb-4 text-red-600">
+                        Access Denied
+                    </h1>
+                    <p className="mb-6 text-gray-400">
+                        The page is not for you, cause this page is only for Managers.
+                    </p>
+                    <div className="flex justify-center gap-4">
+                        <button className="px-4 py-2 bg-blue-500  rounded hover:bg-blue-600 transition">
+                            Go Back
+                        </button>
+                        <button onClick={logOut} className="px-4 py-2 bg-red-500 rounded hover:bg-red-600 transition">
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
     return (
         <div className=' scroll-auto'>
             <div>
@@ -171,8 +189,8 @@ const ApprovedOrders = () => {
                 </tbody>
             </table> || <div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
 
-                <p className='text-gray-400'><TbMoodEmptyFilled size={90}/></p>
-                   
+                    <p className='text-gray-400'><TbMoodEmptyFilled size={90} /></p>
+
                     <h3 className="mt-2 text-lg font-semibold">
                         No Approvede Orders
                     </h3>
@@ -218,13 +236,13 @@ const ApprovedOrders = () => {
 
                             <div className='flex gap-3 justify-between mt-6'>
                                 <NavLink to={`/View-Tracking/${orderView._id}`} className='w-full text-center py-1 bg-transparent border-2 rounded-[7px] border-green-500 text-gray-400'>View Tracking</NavLink>
-                                <button onClick={() => handleRejectOrder(orderView)} className={`w-full text-center py-1 bg-transparent border-warning text-red-600  border-2 rounded-[7px]`}>Disapprove</button>
+                                <button onClick={() => handleRejectOrder(orderView)} className={`cursor-pointer w-full text-center py-1 bg-transparent border-warning text-red-600  border-2 rounded-[7px]`}>Disapprove</button>
                             </div>
 
                             <div className={`flex flex-col gap-4 mt-6`}>
                                 <button
                                     onClick={() => setOpenForm(false)}
-                                    className=" p-2 bg-transparent border-2 rounded-full absolute -top-10 -right-10 hover:opacity-80"
+                                    className="cursor-pointer hover:animate-spin p-2 bg-transparent border-2 rounded-full absolute -top-10 -right-10 hover:opacity-80"
                                 >
                                     <RxCross2 size={30} />
                                 </button>

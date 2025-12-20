@@ -3,15 +3,17 @@ import React, { useState } from 'react';
 import useAxiosSecure from '../../../HooKs/useAxiosSecure';
 import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
+import { TbMoodEmptyFilled } from 'react-icons/tb';
 
 const User = () => {
 
+    const [userStatus, setUserStatus] = useState('')
     const axiosSecure = useAxiosSecure();
 
     const { data: Users = [], refetch } = useQuery({
-        queryKey: ['allUsers'],
+        queryKey: ['allUsers', userStatus],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/allUsers`);
+            const res = await axiosSecure.get(`/allUsers?status=${userStatus}`);
             return res.data;
         }
     })
@@ -64,22 +66,35 @@ const User = () => {
     }
 
 
+    const handleUserStatus = (status) => {
+        return setUserStatus(status)
+    }
+
 
 
 
     return (
         <div>
             <h1 className='text-center text-3xl font-bold my-8'>All User Here</h1>
+            <div className='flex justify-between items-center mb-3'>
+                <p>Total users: ( {Users.length} )</p>
+                <div className='flex gap-2'>
+                    <button onClick={() => handleUserStatus('')} className={`px-3 py-1 ${userStatus === '' && 'border'} cursor-pointer`}>All</button>
+                    <button onClick={() => handleUserStatus('approved')} className={`px-3 py-1 ${userStatus === 'approved' && 'border'} cursor-pointer`}>Approved</button>
+                    <button onClick={() => handleUserStatus('pending')} className={`px-3 py-1 ${userStatus === 'pending' && 'border'} cursor-pointer`}>Pending</button>
+                    <button onClick={() => handleUserStatus('suspended')} className={`px-3 py-1 ${userStatus === 'suspended' && 'border'} cursor-pointer`}>Suspended</button>
+                </div>
+            </div>
 
             <div>
-                <table className="table">
-                    {/* head */}
+                {Users.length !== 0 ? <table className="table">
                     <thead>
                         <tr className='text-gray-400'>
                             <th>#</th>
-                            <th>Avater</th>
-                            <th>Email</th>
+                            {/* <th>Avater</th> */}
                             <th>Name</th>
+                            <th>Email</th>
+                            
                             <th>Status</th>
                             <th>Role</th>
                             <th>Actions</th>
@@ -89,9 +104,10 @@ const User = () => {
                         {
                             Users.map((User, index) => <tr key={User?._id}>
                                 <th>{index + 1}</th>
-                                <td><img className='h-14 w-20 rounded-xl' src={User?.photoURL} alt="Not Found" /></td>
-                                <td className='underline'><a href={`mailto:${User?.email}`}>{User?.email}</a></td>
+                                {/* <td><img className='h-14 w-20 rounded-xl' src={User?.photoURL} alt="Not Found" /></td> */}
                                 <td>{User?.displayName}</td>
+                                <td className='underline'><a href={`mailto:${User?.email}`}>{User?.email}</a></td>
+                                
                                 <td className={`${User?.status === 'approved' ? 'text-green-500' : User?.status === 'pending' ? 'text-yellow-500' : 'text-red-600'} font-semibold uppercase`}>{User?.status}</td>
                                 <td className='uppercase'>{User?.role}</td>
 
@@ -102,7 +118,17 @@ const User = () => {
                         }
 
                     </tbody>
-                </table>
+                </table> : <div className="w-full h-[40vh] py-16 flex flex-col items-center justify-center text-center border border-dashed rounded-xl">
+
+                    <p className='text-gray-400'><TbMoodEmptyFilled size={90} /></p>
+
+                    <h3 className="mt-2 text-lg font-semibold">
+                        No <span className='capitalize'>{userStatus}</span> User
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-500 max-w-sm">
+                        Orders will appear here once customers place their purchases.
+                    </p>
+                </div>}
 
                 <AnimatePresence>
                     {openForm && (

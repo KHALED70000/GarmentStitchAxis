@@ -26,6 +26,7 @@ import UserProfile from "./LayOuts/DashBoard/UserProfile";
 import MyOrders from "./LayOuts/DashBoard/MyOrders";
 import TrackOrders from "./LayOuts/DashBoard/TrackOrders";
 import EditOrder from "./LayOuts/DashBoard/EditOrder";
+import AllAdminProduct from "./LayOuts/DashBoard/AllAdminProduct";
 
 export const router = createBrowserRouter([
     {
@@ -130,6 +131,10 @@ export const router = createBrowserRouter([
             {
                 path: 'Track-Orders',
                 element: <TrackOrders/>
+            },
+            {
+                path: 'Admin-All-Product',
+                element: <AllAdminProduct/>
             },
         ],
     }
